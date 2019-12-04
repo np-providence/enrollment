@@ -1,10 +1,7 @@
-import App from './App.svelte';
+import Root from './Root.svelte';
 
-const app = new App({
+const app = new Root({
 	target: document.body,
-	props: {
-		name: 'world'
-	}
 });
 
 window.app = app;

@@ -1,0 +1,27 @@
+h1 {
+  font-size: 8em;
+}
+
+body {
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  line-height: 1.58;
+  word-break: break-word;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  font-size: 18px;
+  display: grid;
+  grid-template-columns: 10vw [content-start] auto [content-end] 10vw;
+}
+
+.content {
+  grid-column-start: content-start;
+  grid-column-end: content-end;
+  text-align: center;
+}
+
+
