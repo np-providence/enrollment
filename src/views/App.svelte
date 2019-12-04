@@ -1,5 +1,6 @@
 <script>
   import Webcam from 'webcamjs';
+  import Navbar from '../components/Navbar';
 
   function configure(){
         Webcam.set({
@@ -21,6 +22,7 @@
 </script>
 
 <div class="content">
+  <Navbar />
   <div id="my_camera" on:click={configure}><p style="text-align: center; font-size: 25px ">
     <br>Front facing Photo <br><br> Click Here to take a photo</p>
   </div>
