@@ -29,13 +29,12 @@
     if (email === 'test@gmail.com' && password === 'okb00mer') token.update(t => 'token');
     else error = 'wrong creds u loser';
   }
-
 </script>
 
 <div class="content">
    <Navbar />
    <form id="loginForm" on:submit={login}>
-    <h3> No Entry B00mers </h3>
+    <h2> Login </h2>
     <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
     <input name="password" type="password" placeholder="Password" bind:value={password}> <br/>
     <input type="submit" value="Login">

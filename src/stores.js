@@ -9,14 +9,17 @@ export const createTokenStore = ()  => {
   return {
     subscribe,
     set: token => {
-      // storage.setItem('token', token);
+      storage.setItem('token', token);
       set(token);
     },
     unset: () => {
-      // storage.removeItem('token');
+      storage.removeItem('token');
       set(null);
     },
-    update: token => update(token),
+    update: token => { 
+      storage.setItem('token', token);
+      update(token);
+    }
   };
 };
 

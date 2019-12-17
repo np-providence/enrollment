@@ -22,7 +22,9 @@
 </script>
 
 <nav>
-   <span id="logo"> FaceIT!</span>
+   <a href="/">
+     <span id="logo"> FaceIT!</span>
+   </a>
    <div id="controls"> 
     <a href="" on:click={logOut}>Log out</a>
    </div>

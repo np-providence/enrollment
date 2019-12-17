@@ -371,4 +371,16 @@ body {
   text-align: center;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
 
+.button {
+  color: white;
+  background: dodgerblue;
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 15px;
+  font-weight: bold;
+}
