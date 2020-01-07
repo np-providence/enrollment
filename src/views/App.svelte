@@ -3,15 +3,17 @@ import Webcam from 'webcamjs';
 import Navbar from '../components/Navbar';
 import { onMount } from 'svelte';
 
+let cameraActive = false;
 
 function attach() {      
-Webcam.set({
+  Webcam.set({
       width: 1280,
       height: 720,
       image_format: 'jpeg',
       jpeg_quality: 90
   });
- Webcam.attach('#my_camera');
+  Webcam.attach('#my_camera');
+  cameraActive = true;
 }
 
 function snapshot() {
@@ -33,9 +35,10 @@ function snapshot() {
   <h2>Enrollment</h2>
   <div id="my_camera">
     <p style="text-align: center; font-size: 25px ">
-      <br/>Front facing camera<br/>
-      <div class="button" on:click={attach}>Turn on camera</div>
+      <div class="button" on:click={attach}>Begin</div>
   </div>
-  <div class="button" on:click={snapshot}> Capture </div>
+  {#if cameraActive}
+    <div class="button" on:click={snapshot}> Capture </div>
+  {/if}
 </div>
 

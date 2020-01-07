@@ -25,9 +25,13 @@
 
   function login(event) {
     event.preventDefault();
-    // TODO: actual auth
-    if (email === 'test@gmail.com' && password === 'okb00mer') token.update(t => 'token');
-    else error = 'wrong creds u loser';
+    fetch(process.env.API_URL + `user/login?email=${email}&password=${password}`)
+      .then(response => {
+        if (response.ok) return response.json();
+        else error = "Wrong creds u loser";
+      })
+      .then(r => token.update(t => r.token))
+      .catch(err => error = 'Wrong creds u loser');
   }
 </script>
 
