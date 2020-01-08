@@ -1,6 +1,6 @@
 <style>
   #loginForm {
-    margin: auto;
+    margin: 20vh auto;
     width: 500px;
     padding: 25px;
     border: solid grey 1px;
@@ -14,7 +14,6 @@
 </style>
 
 <script>
-  import Navbar from '../components/Navbar';
   import { token } from '../stores';
 
   let email = '', password = '', error = '';
@@ -36,7 +35,6 @@
 </script>
 
 <div class="content">
-   <Navbar />
    <form id="loginForm" on:submit={login}>
     <h2> Login </h2>
     <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>

@@ -1,6 +1,5 @@
 <script>
 import Webcam from 'webcamjs';
-import Navbar from '../components/Navbar';
 import { onMount } from 'svelte';
 
 let cameraActive = false;
@@ -31,7 +30,6 @@ function snapshot() {
 </style>
 
 <div class="content">
-  <Navbar />
   <h2>Enrollment</h2>
   <div id="my_camera">
     <p style="text-align: center; font-size: 25px ">

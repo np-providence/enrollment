@@ -1,12 +1,12 @@
 <script>
-  import Login from './views/Login.svelte'
-  import App from './views/App.svelte'
+  import Login from './views/Login';
+  import Router from './views/Router';
   
   import {token} from './stores';
 </script>
 
 {#if $token}
-  <App />
+  <Router />
 {:else}
   <Login />
 {/if}

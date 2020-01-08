@@ -3,6 +3,7 @@
     height: 80px;
     padding: 15px;
     text-align: left;
+    line-height: 80px;
   }
   #logo {
     font-size: 31px;
