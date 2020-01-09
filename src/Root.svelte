@@ -2,7 +2,7 @@
   import Login from './views/Login';
   import Router from './views/Router';
   
-  import {token} from './stores';
+  import { token } from './stores';
 </script>
 
 {#if $token}

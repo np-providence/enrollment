@@ -1,11 +1,13 @@
 <script>
 import { Router, Link, Route } from "svelte-routing";
+
 import Navbar from '../components/Navbar';
 import CreateEvent from './CreateEvent';
 import Dashboard from './Dashboard';
 import Events from './MyEvents';
 
-export let url = "";
+let url = '/';
+
 </script>
 
 <style>
