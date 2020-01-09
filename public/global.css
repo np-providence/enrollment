@@ -350,7 +350,7 @@ template {
 
 
 body {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto;
+  font-family: san-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   height: 100vh;
