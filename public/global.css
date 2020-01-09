@@ -351,7 +351,7 @@ template {
 
 body {
 
-  font-family: san-serif;
+  font-family: sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   height: 100vh;
@@ -367,6 +367,7 @@ body {
 }
 
 .content {
+  font-family: sans-serif;
   grid-column-start: content-start;
   grid-column-end: content-end;
   text-align: center;
