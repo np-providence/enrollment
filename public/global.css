@@ -350,7 +350,8 @@ template {
 
 
 body {
-  font-family: sans-serif;
+
+  font-family: san-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   height: 100vh;
