@@ -15,10 +15,12 @@
 </style>
 
 <script>
-  import {token} from '../stores';
+  import { token } from '../stores';
+  import { navigate } from 'svelte-routing';
 
   function logOut() {
-    token.unset()
+    navigate('/', { replace: true });
+    token.unset();
   }
 </script>
 

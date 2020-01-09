@@ -1,12 +1,14 @@
 <script>
 import { Router, Link, Route } from "svelte-routing";
+
 import Navbar from '../components/Navbar';
 
-import Enrol from './Enrol';
+import Enrolment from './Enrolment';
 import Dashboard from './Dashboard';
 import Attendance from './Attendance';
 
-export let url = "";
+let url = '/';
+
 </script>
 
 <style>
@@ -16,7 +18,7 @@ export let url = "";
   <Router url="{url}">
     <Navbar />
     <Route path="/" component="{Dashboard}" />
-    <Route path="enrol" component="{Enrol}" />
+    <Route path="enrol" component="{Enrolment}" />
     <Route path="attendance" component="{Attendance}" />
   </Router>
 </div>
