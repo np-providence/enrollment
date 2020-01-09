@@ -3,14 +3,17 @@
 </script>
 
 <div class="content">
-  <Link to="enrol"> 
+<Link to="myEvents"> 
     <div class="button">
-      Student Enrolment 
+      View My Events
     </div>
   </Link>
-  <Link to="attendance"> 
+  <Link to="createEvent"> 
     <div class="button">
-      View Attendance 
+      Create New Event
     </div>
   </Link>
+  <div class="button">
+      Change Password
+    </div>
 </div>
