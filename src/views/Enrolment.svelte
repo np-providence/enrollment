@@ -9,6 +9,11 @@ const progress = tweened(0, {
 		easing: cubicOut
 });
 
+const flash = tweened(0, {
+		duration: 300
+});
+
+
 let name = '',
     email = '',
     pictures = [],
@@ -51,7 +56,11 @@ function startCapture() {
   const bufferTime = 2000;
   const numberOfImages = 15;
   let captureInterval = setInterval(()=> {
-    Webcam.snap(console.info);
+    flash.set(1.0);
+    Webcam.snap(data => {
+      pictures.push(data);
+      setTimeout(() => flash.set(0.0), 300); // Timeout here has to be synced with tween delay
+    });
     progress.set((pictures.length / numberOfImages));
 
     if (pictures.length >= 5) instructions = 'Turn slightly to the right...';
@@ -60,6 +69,7 @@ function startCapture() {
     // Terminate 
     if (pictures.length >= numberOfImages) {
       clearInterval(captureInterval);
+      Webcam.reset();
       enrolAttendee();
     }
 
@@ -72,9 +82,22 @@ function enrolAttendee() {
 </script>
 
 <style>
+
+#flash {
+  background: white;
+  pointer-events: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  animation: flash linear 0.3s infinite;
+}
+
 #my_camera {
   width: 400px;
   margin: auto;
+  background: blue;
 }
 
 input {
@@ -85,6 +108,7 @@ input {
 </style>
 
 <div class="content">
+  <div id="flash" style="opacity: {$flash}">&nbsp;</div>
   <h2>Enrolment</h2>
   <div id="my_camera"> </div>
   {#if cameraActive}
