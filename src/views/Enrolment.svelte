@@ -1,6 +1,6 @@
 <script>
 import Webcam from 'webcamjs';
-import { onMount } from 'svelte';
+import { onDestroy } from 'svelte';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 
@@ -71,6 +71,7 @@ function startCapture() {
       clearInterval(captureInterval);
       Webcam.reset();
       enrolAttendee();
+      instructions = 'Done!'
     }
 
   }, bufferTime);
@@ -79,10 +80,15 @@ function startCapture() {
 function enrolAttendee() {
   // TODO: Make request to enrol attendee
 }
+
+// Clean up on unmount
+onDestroy(() => {
+ if (cameraActive) Webcam.reset();
+});
+
 </script>
 
 <style>
-
 #flash {
   background: white;
   pointer-events: none;
@@ -101,9 +107,13 @@ function enrolAttendee() {
 }
 
 input {
-    border: solid grey 1px;
-    padding: 5px;
-    margin-bottom: 10px;
+  border: solid grey 1px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.instructions {
+  font-size: 30px;
 }
 </style>
 
@@ -112,7 +122,7 @@ input {
   <h2>Enrolment</h2>
   <div id="my_camera"> </div>
   {#if cameraActive}
-    <p> {instructions} </p>
+    <p class="instructions"> {instructions} </p>
     <progress value={$progress}></progress>
     <div class="button" on:click={startCapture}> Start </div>
   {:else}
