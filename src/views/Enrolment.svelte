@@ -54,6 +54,7 @@ function attachCamera() {
 }
 
 function startCapture() {
+  instructions = 'Keep your face in the center of the frame...';
   captureInProgress = true;
   const bufferTime = 2000;
   const numberOfImages = 15;
@@ -63,6 +64,7 @@ function startCapture() {
       pictures.push(data);
       setTimeout(() => flash.set(0.0), 300); // Timeout here has to be synced with tween delay
     });
+
     progress.set((pictures.length / numberOfImages));
 
     if (pictures.length >= 5) instructions = 'Turn slightly to the right...';
@@ -73,7 +75,7 @@ function startCapture() {
       clearInterval(captureInterval);
 
       Webcam.reset();
-      instructions = 'Done!';
+      instructions = 'Processing...';
 
       enrolAttendee();
     }
@@ -138,8 +140,8 @@ progress[value] {
     {/if }
   {:else}
     <p> To get started, enter your details </p>
-    <input disabled="{cameraActive}" name="name" type="text" placeholder="Name" bind:value={name}> <br/>
-    <input disabled="{cameraActive}" name="email" type="text" placeholder="Email" bind:value={email}> <br/>
+    <input name="name" type="text" placeholder="Name" bind:value={name}> <br/>
+    <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
     <p style="color: red;">{error}</p>
     <div class="button" on:click={attachCamera}>Begin</div>  
   {/if}

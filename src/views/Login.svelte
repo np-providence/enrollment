@@ -29,8 +29,11 @@
         if (response.ok) return response.json();
         else error = "Wrong creds u loser";
       })
-      .then(r => token.update(t => r.token))
-      .catch(err => error = 'Wrong creds u loser');
+      .then(r => {
+        let t = r.token;
+        token.set(t);
+      })
+      .catch(err => error = "Wrong creds u loser");
   }
 </script>
 
