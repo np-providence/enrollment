@@ -19,7 +19,8 @@ let name = '',
     pictures = [],
     error = '',
     instructions = 'Make sure the front of your face can be seen, and then press start.',
-    cameraActive = false;
+    cameraActive = false,
+    captureInProgress = false;
 
 $: detailsValid = () => {
   if (name === '' || email === '') {
@@ -42,8 +43,8 @@ function validateEmail(email) {
 function attachCamera() {      
   if (detailsValid()){
     Webcam.set({
-        width: 1280,
-        height: 720,
+        width: 640,
+        height: 360,
         image_format: 'jpeg',
         jpeg_quality: 90
     });
@@ -53,6 +54,7 @@ function attachCamera() {
 }
 
 function startCapture() {
+  captureInProgress = true;
   const bufferTime = 2000;
   const numberOfImages = 15;
   let captureInterval = setInterval(()=> {
@@ -69,9 +71,11 @@ function startCapture() {
     // Terminate 
     if (pictures.length >= numberOfImages) {
       clearInterval(captureInterval);
+
       Webcam.reset();
+      instructions = 'Done!';
+
       enrolAttendee();
-      instructions = 'Done!'
     }
 
   }, bufferTime);
@@ -79,6 +83,7 @@ function startCapture() {
 
 function enrolAttendee() {
   // TODO: Make request to enrol attendee
+  console.info(pictures);
 }
 
 // Clean up on unmount
@@ -101,15 +106,19 @@ onDestroy(() => {
 }
 
 #my_camera {
-  width: 400px;
   margin: auto;
-  background: blue;
+  background: whitesmoke;
 }
 
 input {
   border: solid grey 1px;
   padding: 5px;
   margin-bottom: 10px;
+}
+
+progress[value] {
+  width: 500px;
+  height: 20px;
 }
 
 .instructions {
@@ -124,7 +133,9 @@ input {
   {#if cameraActive}
     <p class="instructions"> {instructions} </p>
     <progress value={$progress}></progress>
-    <div class="button" on:click={startCapture}> Start </div>
+    {#if !captureInProgress} 
+      <div class="button" on:click={startCapture}> Start </div>
+    {/if }
   {:else}
     <p> To get started, enter your details </p>
     <input disabled="{cameraActive}" name="name" type="text" placeholder="Name" bind:value={name}> <br/>
