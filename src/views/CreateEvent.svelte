@@ -1,20 +1,26 @@
 <script>
-  import { onMount } from "svelte";
-  import { Link } from "svelte-routing";
-  import Select from "svelte-select";
-  	import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
+import { writable,get } from 'svelte/store';
+import { onMount } from "svelte";
+import { Link, navigate  } from "svelte-routing";
+import Select from "svelte-select";
+import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
+import { events, newCreation } from './../stores.js';
+
+
 
   let eventName = "",
     numberOfSessions = 1,
     numberOfWeeks = 1,
     location = "",
     error = "",
-     selectedValue = undefined,
-     n;
+    selectedValue = undefined,
+    n,
+    currentEvents = get(events);
 
+console.log(currentEvents)
   const items = [
     { value: "27-01-10", label: "27-01-10" },
-    { value: "27-01-10", label: "27-01-10" }
+    { value: "21-03-08", label: "21-03-08" }
   ]; //test data
 
 
@@ -35,7 +41,10 @@
         location = selectedValue["value"];
         if (validateForm() === true) {
           let newEvent = {eventName,numberOfSessions,numberOfWeeks,location}
-          console.log(newEvent);
+          currentEvents.push(newEvent)
+          console.log(currentEvents)
+          events.update(existing => currentEvents)
+          newCreation.update(existing => true  )
          /* let response = await fetch(process.env.API_URL,{
            method: 'POST',
            headers: {
@@ -44,7 +53,7 @@
            body: JSON.stringify(newEvent)
          });
          let result = await response.json();*/
-         notifier.success('Event has been created', 7000) 
+         navigate("/", { replace: true });
 
         }
       } else {

@@ -25,3 +25,5 @@ export const createTokenStore = ()  => {
 
 export const token = createTokenStore();
 
+export const events = writable([]);
+export const newCreation = writable(false)

@@ -24,14 +24,15 @@
 
   function login(event) {
     event.preventDefault();
-    fetch(process.env.API_URL + `user/login?email=${email}&password=${password}`)
+    response.ok
+    /* fetch(process.env.API_URL + `user/login?email=${email}&password=${password}`)
       .then(response => {
         if (response.ok) return response.json();
         else error = "Wrong creds u loser";
       })
       .then(r => token.update(t => r.token))
-      .catch(err => error = 'Wrong creds u loser');
-  }
+      .catch(err => error = 'Wrong creds u loser');*/
+  } 
 </script>
 
 <div class="content">
