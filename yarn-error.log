@@ -1,0 +1,52 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js
+
+PATH: 
+  /usr/local/sbin:/home/jeremy/.rvm/gems/ruby-2.5.3/bin:/home/jeremy/.rvm/gems/ruby-2.5.3@global/bin:/home/jeremy/.rvm/rubies/ruby-2.5.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jeremy/.rvm/bin:/home/jeremy/.rvm/bin:/home/jeremy/.rvm/bin:/home/jeremy/.rvm/bin
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  8.10.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/home/jeremy/Desktop/web/node_modules/clipboardy/node_modules/lru-cache'
+
+npm manifest: 
+  {
+    "name": "svelte-app",
+    "version": "1.0.0",
+    "devDependencies": {
+      "@beyonk/svelte-notifications": "^2.0.3",
+      "cross-env": "^5.2.0",
+      "css-loader": "^2.1.1",
+      "mini-css-extract-plugin": "^0.6.0",
+      "serve": "^11.0.0",
+      "style-loader": "^0.23.1",
+      "svelte": "^3.0.0",
+      "svelte-loader": "2.13.3",
+      "webpack": "^4.30.0",
+      "webpack-cli": "^3.3.0",
+      "webpack-dev-server": "^3.3.1"
+    },
+    "scripts": {
+      "build": "cross-env NODE_ENV=production webpack",
+      "dev": "webpack-dev-server --content-base public"
+    },
+    "dependencies": {
+      "dotenv": "^8.2.0",
+      "svelte-routing": "^1.4.0",
+      "svelte-select": "^3.3.5",
+      "webcamjs": "^1.0.26"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

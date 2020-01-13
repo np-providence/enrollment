@@ -2,19 +2,21 @@
   import { onMount } from "svelte";
   import { Link } from "svelte-routing";
   import Select from "svelte-select";
+  	import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 
   let eventName = "",
     numberOfSessions = 1,
     numberOfWeeks = 1,
     location = "",
-    error = "";
+    error = "",
+     selectedValue = undefined,
+     n;
 
   const items = [
     { value: "27-01-10", label: "27-01-10" },
     { value: "27-01-10", label: "27-01-10" }
   ]; //test data
 
-  let selectedValue = undefined;
 
   function validateForm() {
     if (eventName === "") {
@@ -32,7 +34,18 @@
       if (selectedValue !== undefined) {
         location = selectedValue["value"];
         if (validateForm() === true) {
-          console.log(location);
+          let newEvent = {eventName,numberOfSessions,numberOfWeeks,location}
+          console.log(newEvent);
+         /* let response = await fetch(process.env.API_URL,{
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json;charset=utf-8'
+           },
+           body: JSON.stringify(newEvent)
+         });
+         let result = await response.json();*/
+         notifier.success('Event has been created', 7000) 
+
         }
       } else {
         error = "Please select a location";
@@ -66,6 +79,7 @@
 </style>
 
 <div class="content">
+<NotificationDisplay bind:this={n} />
   <div class="form">
     <h2>Create Event</h2>
     Event Name:
