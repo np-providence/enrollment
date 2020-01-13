@@ -363,6 +363,8 @@ body {
   font-size: 18px;
   display: grid;
   grid-template-columns: 10vw [content-start] auto [content-end] 10vw;
+  background: #042431;
+  color: white;
 }
 
 .content {
@@ -390,3 +392,26 @@ a {
 .button:active {
   opacity: 0.8;
 }
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-40px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+

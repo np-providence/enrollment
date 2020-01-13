@@ -13,4 +13,9 @@
       View Attendance 
     </div>
   </Link>
+  <Link to="identify"> 
+    <div class="button">
+      Face Identification Demo
+    </div>
+  </Link>
 </div>

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "particles.js": "^2.0.0",
     "svelte-routing": "^1.4.0",
     "webcamjs": "^1.0.26"
   }

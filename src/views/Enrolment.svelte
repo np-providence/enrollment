@@ -48,7 +48,7 @@ function attachCamera() {
         image_format: 'jpeg',
         jpeg_quality: 90
     });
-    Webcam.attach('#my_camera');
+    Webcam.attach('#camera');
     cameraActive = true;
   }
 }
@@ -107,7 +107,7 @@ onDestroy(() => {
   animation: flash linear 0.3s infinite;
 }
 
-#my_camera {
+#camera {
   margin: auto;
   background: whitesmoke;
 }
@@ -131,7 +131,7 @@ progress[value] {
 <div class="content">
   <div id="flash" style="opacity: {$flash}">&nbsp;</div>
   <h2>Enrolment</h2>
-  <div id="my_camera"> </div>
+  <div id="camera"> </div>
   {#if cameraActive}
     <p class="instructions"> {instructions} </p>
     <progress value={$progress}></progress>
