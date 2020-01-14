@@ -27,7 +27,7 @@
 
 <nav>
    <Link to='/'>
-     <span id="logo"> FaceIT! Event Owner</span>
+     <span id="logo"> FaceIT! Admin</span>
    </Link>
    <div id="controls"> 
     <Link to='/' on:click={logOut}>Log out</Link>

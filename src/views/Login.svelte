@@ -67,7 +67,7 @@
    <div id="particles-js" class="fade-in" />
    <div class="login-container">
      <form id="login-form" class="fade-in" on:submit={login}>
-      <h2> FaceIT! Event Owner </h2>
+      <h2> FaceIT! Admin </h2>
       <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
       <input name="password" type="password" placeholder="Password" bind:value={password}> <br/>
       <input type="submit" value="Login">

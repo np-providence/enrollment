@@ -22,16 +22,23 @@ function successAlert(){
 
 <div class="content">
 <NotificationDisplay />
-<Link to="myEvents"> 
+<h1>User Management</h1>
+<Link to="importUsers"> 
     <div class="button">
-      View My Events
+      Import Users
     </div>
   </Link>
-  <Link to="createEvent"> 
+  <Link to="editUser"> 
     <div class="button">
-      Create New Event
+      Edit User
     </div>
   </Link>
+   <Link to="removeUser"> 
+    <div class="button">
+      Remove User
+    </div>
+  </Link>
+  <h1>Profile Settings</h1>
   <div class="button">
       Change Password
     </div>
