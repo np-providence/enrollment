@@ -9,7 +9,10 @@ console.log(get(newCreation));
 console.log(get(events));
 
 onMount(() => {
-  if (get(newCreation)) successAlert();
+  if (get(newCreation)) { 
+    successAlert();
+    newCreation.update(existing => false)
+    }
 });
 
 function successAlert(){

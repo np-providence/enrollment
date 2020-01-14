@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import CreateEvent from './CreateEvent';
 import Dashboard from './Dashboard';
 import Events from './MyEvents';
+import ViewAttendees from './ViewAttendees';
 
 let url = '/';
 
@@ -19,5 +20,6 @@ let url = '/';
     <Route path="/" component="{Dashboard}" />
     <Route path="createEvent" component="{CreateEvent}" />
     <Route path="myEvents" component="{Events}" />
+    <Route path="viewAttendees" component="{ViewAttendees}" />
   </Router>
 </div>
