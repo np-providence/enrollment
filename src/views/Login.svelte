@@ -30,8 +30,7 @@
 
 <style>
   .login-container {
-    width: 90vw;
-    margin: 5vh auto;
+    margin: 7vh auto;
     display: flex;
   }
 
