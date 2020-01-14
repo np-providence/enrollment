@@ -22,6 +22,7 @@ function successAlert(){
 
 <div class="content">
 <NotificationDisplay />
+<h1>Events</h1>
 <Link to="myEvents"> 
     <div class="button">
       View My Events
@@ -32,6 +33,7 @@ function successAlert(){
       Create New Event
     </div>
   </Link>
+  <h1>Profile Settings</h1>
   <div class="button">
       Change Password
     </div>
