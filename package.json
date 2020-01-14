@@ -19,7 +19,9 @@
     "dev": "webpack-dev-server --content-base public"
   },
   "dependencies": {
+    "axios": "^0.19.1",
     "dotenv": "^8.2.0",
+    "particles.js": "^2.0.0",
     "svelte-routing": "^1.4.0",
     "svelte-select": "^3.3.5",
     "webcamjs": "^1.0.26"

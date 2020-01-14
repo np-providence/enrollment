@@ -13,12 +13,11 @@ onMount(() => {
 });
 
 function successAlert(){
-  notifier.success('Notifications work!');
+  notifier.success('Event has been created!');
 }
 </script>
 
 <div class="content">
-<button on:click={successAlert} ></button>
 <NotificationDisplay />
 <Link to="myEvents"> 
     <div class="button">

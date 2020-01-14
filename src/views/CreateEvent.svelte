@@ -5,6 +5,7 @@ import { Link, navigate  } from "svelte-routing";
 import Select from "svelte-select";
 import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 import { events, newCreation } from './../stores.js';
+import axios from "axios";
 
 
 
@@ -40,11 +41,22 @@ console.log(currentEvents)
       if (selectedValue !== undefined) {
         location = selectedValue["value"];
         if (validateForm() === true) {
-          let newEvent = {eventName,numberOfSessions,numberOfWeeks,location}
-          currentEvents.push(newEvent)
+         // let newEvent = {eventName,numberOfSessions,numberOfWeeks,location}
+          /*currentEvents.push(newEvent)
           console.log(currentEvents)
-          events.update(existing => currentEvents)
+          events.update(existing => currentEvents)*/
           newCreation.update(existing => true  )
+          axios.post('http://localhost:5000/api/event/new',{
+              name: eventName,
+	            sessionPerWeek: numberOfSessions,
+	            numberOfWeeks: numberOfWeeks,
+	            location: location
+          })
+          .then((response) => {
+               console.log(response);
+            }, (error) => {
+                console.log(error);
+            });
          /* let response = await fetch(process.env.API_URL,{
            method: 'POST',
            headers: {
@@ -85,6 +97,10 @@ console.log(currentEvents)
     left: 35%;
     position: absolute;
   }
+
+  .Select{
+    color:black
+    }
 </style>
 
 <div class="content">
@@ -118,7 +134,9 @@ console.log(currentEvents)
     <br />
     Location:
     <br />
-    <Select {items} bind:selectedValue />
+    <div class="Select">
+      <Select {items} bind:selectedValue />
+    </div>
     <p style="color: red;">{error}</p>
     <br />
     <Link to="/">

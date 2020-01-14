@@ -7,8 +7,9 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
+ @import url('https://fonts.googleapis.com/css?family=Rajdhani&display=swap');
 
-html {
+ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -350,8 +351,7 @@ template {
 
 
 body {
-
-  font-family: sans-serif;
+  font-family: 'Rajdhani Medium', sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   height: 100vh;
@@ -364,10 +364,11 @@ body {
   font-size: 18px;
   display: grid;
   grid-template-columns: 10vw [content-start] auto [content-end] 10vw;
+  background: #042431;
+  color: white;
 }
 
 .content {
-  font-family: sans-serif;
   grid-column-start: content-start;
   grid-column-end: content-end;
   text-align: center;
@@ -375,14 +376,41 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
+  color:white;
 }
 
 .button {
   color: white;
-  background: dodgerblue;
+  background: #07566B;
   max-width: 300px;
   margin: 20px auto;
   padding: 15px;
   font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:active {
+  opacity: 0.8;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-40px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
