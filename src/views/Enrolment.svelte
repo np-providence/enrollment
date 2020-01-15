@@ -4,6 +4,8 @@ import { onDestroy } from 'svelte';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 
+import { token } from '../stores';
+
 const progress = tweened(0, {
 		duration: 400,
 		easing: cubicOut
@@ -56,7 +58,7 @@ function attachCamera() {
 function startCapture() {
   instructions = 'Keep your face in the center of the frame...';
   captureInProgress = true;
-  const bufferTime = 2000;
+  const bufferTime = 1000;
   const numberOfImages = 15;
   let captureInterval = setInterval(()=> {
     flash.set(1.0);
@@ -75,7 +77,7 @@ function startCapture() {
       clearInterval(captureInterval);
 
       Webcam.reset();
-      instructions = 'Processing...';
+      instructions = 'Verifying images...';
 
       enrolAttendee();
     }
@@ -83,9 +85,66 @@ function startCapture() {
   }, bufferTime);
 }
 
+function verifyImages() {
+  return Promise.all(
+    pictures.map(picture => 
+      fetch(process.env.API_URL + 'api/features', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: $token,
+          image: picture
+        })
+      })
+    )
+  )
+  .then(responses => Promise.all(responses.map(r => r.json())))
+  .then(results => results.map(r => r.numberOfFaces))
+  .then(getPicturesToEnrol);
+}
+
 function enrolAttendee() {
-  // TODO: Make request to enrol attendee
-  console.info(pictures);
+  verifyImages()
+  .then(enrolmentPictures => {
+    if (enrolmentPictures.length === 0) {
+      instructions = 'No faces detected, please try again';
+    } else {
+      instructions = 'Enroling...';
+      // TODO: Make request to enrol attendee
+      return fetch(process.env.API_URL + 'api/attendee', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: $token,
+          features: enrolmentPictures,
+          course: 'Information Technology',
+          year: '2012',
+          gender: 'N/A',
+          status: true,
+          email,
+          password: 'password' // TODO: Attendees need their own sign up page
+        })
+      });
+    }
+  })
+  .then(console.info)
+  .finally(() => {
+  });
+
+}
+
+function getPicturesToEnrol(results) {
+  let enrolmentPictures = [];
+  results.forEach((r, index) => {
+    if (r === 1) enrolmentPictures.push(pictures[index]);
+  });
+  return enrolmentPictures;
 }
 
 // Clean up on unmount
