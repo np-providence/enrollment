@@ -4,7 +4,7 @@ import { onMount } from "svelte";
 import { Link, navigate  } from "svelte-routing";
 import Select from "svelte-select";
 import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
-import { events, newCreation } from './../stores.js';
+import { newCreation } from './../stores.js';
 import axios from "axios";
 
 
@@ -13,12 +13,10 @@ import axios from "axios";
     numberOfSessions = 1,
     numberOfWeeks = 1,
     location = "",
-    error = "",
+    errorMsg = "",
     selectedValue = undefined,
-    n,
-    currentEvents = get(events);
-
-console.log(currentEvents)
+    n;
+ 
   const items = [
     { value: "27-01-10", label: "27-01-10" },
     { value: "21-03-08", label: "21-03-08" }
@@ -27,10 +25,10 @@ console.log(currentEvents)
 
   function validateForm() {
     if (eventName === "") {
-      error = "Please enter a Event Name";
+      errorMsg = "Please enter a Event Name";
       return false;
     } else {
-        error = ''
+        errorMsg = ''
       return true;
     }
   }
@@ -41,39 +39,31 @@ console.log(currentEvents)
       if (selectedValue !== undefined) {
         location = selectedValue["value"];
         if (validateForm() === true) {
-         // let newEvent = {eventName,numberOfSessions,numberOfWeeks,location}
-          /*currentEvents.push(newEvent)
-          console.log(currentEvents)
-          events.update(existing => currentEvents)*/
           newCreation.update(existing => true  )
           axios.post('http://localhost:5000/api/event/new',{
               name: eventName,
 	            sessionPerWeek: numberOfSessions,
 	            numberOfWeeks: numberOfWeeks,
-	            location: location
+              location: location,
+              createdBy: "saitama"
           })
           .then((response) => {
                console.log(response);
+               navigate("/", { replace: true });
             }, (error) => {
                 console.log(error);
+                errorMsg = 'Event Name already in use.';
             });
-         /* let response = await fetch(process.env.API_URL,{
-           method: 'POST',
-           headers: {
-             'Content-Type': 'application/json;charset=utf-8'
-           },
-           body: JSON.stringify(newEvent)
-         });
-         let result = await response.json();*/
-         navigate("/", { replace: true });
+      
+         
 
         }
       } else {
-        error = "Please select a location";
+        errorMsg = "Please select a location";
       }
     }
     else{
-        error = "Number of Sessions and Weeks cannot be less than 1"
+        errorMsg = "Number of Sessions and Weeks cannot be less than 1"
     }
   }
 </script>
@@ -137,7 +127,7 @@ console.log(currentEvents)
     <div class="Select">
       <Select {items} bind:selectedValue />
     </div>
-    <p style="color: red;">{error}</p>
+    <p style="color: red;">{errorMsg}</p>
     <br />
     <Link to="/">
       <button class="formButton">Back</button>

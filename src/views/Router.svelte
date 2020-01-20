@@ -2,10 +2,12 @@
 import { Router, Link, Route } from "svelte-routing";
 
 import Navbar from '../components/Navbar';
+import EventTable from '../components/EventTable'
 import CreateEvent from './CreateEvent';
 import Dashboard from './Dashboard';
 import Events from './MyEvents';
 import ViewAttendees from './ViewAttendees';
+import Attendees from './Attendees'
 
 let url = '/';
 
@@ -21,5 +23,6 @@ let url = '/';
     <Route path="createEvent" component="{CreateEvent}" />
     <Route path="myEvents" component="{Events}" />
     <Route path="viewAttendees" component="{ViewAttendees}" />
+    <Route path="attendees" component="{Attendees}" />
   </Router>
 </div>

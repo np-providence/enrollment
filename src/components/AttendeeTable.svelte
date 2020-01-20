@@ -1,11 +1,9 @@
 <script>
-import { selectedEvent } from './../stores.js';
- import axios from "axios";
+  import axios from "axios";
   import { Link, navigate } from "svelte-routing";
-  import { writable,get,set } from 'svelte/store';
 
   let events = [];
-  let eventsDisplayed = [];
+  let attendeesDisplayed = [];
   let id = 0;
 
   let queryTextForEvent = "",
@@ -19,31 +17,30 @@ import { selectedEvent } from './../stores.js';
     })
     .then(function(response) {
       events = response["data"];
-      eventsDisplayed = events;
+      attendeesDisplayed = events;
     })
     .catch(function(error) {
       console.log(error);
     });
-  
-  function viewAttendees(event) {
-    selectedEvent.set(event);
-    navigate("attendees", { replace: true });
-  } 
+  /* 
+  function viewAttendees() {
+    navigate("viewAttendees", { replace: true });
+  } */
 
   function searchEvent() {
     console.log(queryTextForEvent);
 
-    if (queryTextForEvent === "") eventsDisplayed = events;
+    if (queryTextForEvent === "") attendeesDisplayed = events;
     else
-      eventsDisplayed = events.filter(e =>
+      attendeesDisplayed = events.filter(e =>
         e.name.toUpperCase().includes(queryTextForEvent.toUpperCase())
       );
   }
   function searchLocation() {
     console.log(queryTextForLocation);
-    if (queryTextForLocation === "") eventsDisplayed = events;
+    if (queryTextForLocation === "") attendeesDisplayed = events;
     else
-      eventsDisplayed = events.filter(e =>
+      attendeesDisplayed = events.filter(e =>
         e.location.toUpperCase().includes(queryTextForLocation.toUpperCase())
       );
   }
@@ -58,7 +55,7 @@ import { selectedEvent } from './../stores.js';
       document.getElementById("searchLocation").disabled = true;
       document.getElementById("searchEvent").disabled = false;
     }
-    eventsDisplayed = events;
+    attendeesDisplayed = events;
   }
 </script>
 
@@ -97,65 +94,25 @@ import { selectedEvent } from './../stores.js';
   }
 </style>
 
-<div class="content">
-  <h1>View Attendee</h1>
-  <h2>Select Event</h2>
-<div class="filter">
-  <input
-    type="radio"
-    name="choice"
-    value="Location"
-    id="location"
-    on:change={selectSearchField} />
-  <label for="location">Location:</label>
-  <input
-    type="text"
-    on:keyup={searchLocation}
-    placeholder="Search for location.."
-    disabled
-    title="Type in a location"
-    id="searchLocation"
-    bind:value={queryTextForLocation} />
-</div>
-<div class="filter">
-  <input
-    type="radio"
-    name="choice"
-    value="Event"
-    id="event"
-    checked="true"
-    on:change={selectSearchField} />
-  <label for="event">Event:</label>
-  <input
-    type="text"
-    on:keyup={searchEvent}
-    placeholder="Search for events.."
-    title="Type in a event"
-    id="searchEvent"
-    bind:value={queryTextForEvent} />
-</div>
-<table id="eventTable">
+<table id="attendeeTable">
   <tr>
     <th>N.o.</th>
     <th>Event Name</th>
     <th>Location</th>
-    <th></th>
   </tr>
-  {#each eventsDisplayed as event}
+  {#each attendeesDisplayed as event}
     <tr class="eventRow">
 
       <td class="tableData" />
       <td class="tableData">{event.name}</td>
       <td class="tableData">{event.location}</td>
-      <td><button on:click={() => viewAttendees(event)}>Select</button></td>
     </tr>
   {:else}
     <tr>
       <td colspan="100%">
-        <h5 class="text-center">There are no Events.</h5>
+        <h5 class="text-center">There are no Attendees yet.</h5>
       </td>
     </tr>
   {/each}
 
 </table>
-</div>

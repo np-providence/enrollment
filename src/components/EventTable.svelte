@@ -1,8 +1,6 @@
 <script>
-import { selectedEvent } from './../stores.js';
- import axios from "axios";
+  import axios from "axios";
   import { Link, navigate } from "svelte-routing";
-  import { writable,get,set } from 'svelte/store';
 
   let events = [];
   let eventsDisplayed = [];
@@ -24,11 +22,10 @@ import { selectedEvent } from './../stores.js';
     .catch(function(error) {
       console.log(error);
     });
-  
-  function viewAttendees(event) {
-    selectedEvent.set(event);
-    navigate("attendees", { replace: true });
-  } 
+  /* 
+  function viewAttendees() {
+    navigate("viewAttendees", { replace: true });
+  } */
 
   function searchEvent() {
     console.log(queryTextForEvent);
@@ -97,9 +94,6 @@ import { selectedEvent } from './../stores.js';
   }
 </style>
 
-<div class="content">
-  <h1>View Attendee</h1>
-  <h2>Select Event</h2>
 <div class="filter">
   <input
     type="radio"
@@ -147,7 +141,7 @@ import { selectedEvent } from './../stores.js';
       <td class="tableData" />
       <td class="tableData">{event.name}</td>
       <td class="tableData">{event.location}</td>
-      <td><button on:click={() => viewAttendees(event)}>Select</button></td>
+      <td></td>
     </tr>
   {:else}
     <tr>
@@ -158,4 +152,3 @@ import { selectedEvent } from './../stores.js';
   {/each}
 
 </table>
-</div>

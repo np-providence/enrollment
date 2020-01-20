@@ -2,11 +2,10 @@
   import { onMount } from 'svelte';
   import { Link } from 'svelte-routing';
   import { writable, get } from 'svelte/store';
-  import { newCreation,events } from './../stores.js';
+  import { newCreation } from './../stores.js';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 
 console.log(get(newCreation));
-console.log(get(events));
 
 onMount(() => {
   if (get(newCreation)) { 
@@ -16,13 +15,13 @@ onMount(() => {
 });
 
 function successAlert(){
-  notifier.success('Event has been created!');
+  notifier.success('Event has been created!', 2000);
 }
 </script>
 
 <div class="content">
 <NotificationDisplay />
-<h1>Events</h1>
+<h1>Event Management</h1>
 <Link to="myEvents"> 
     <div class="button">
       View My Events
@@ -31,6 +30,12 @@ function successAlert(){
   <Link to="createEvent"> 
     <div class="button">
       Create New Event
+    </div>
+  </Link>
+  <h1>Attendance Management</h1>
+<Link to="viewAttendees"> 
+    <div class="button">
+      View Attendees
     </div>
   </Link>
   <h1>Profile Settings</h1>
