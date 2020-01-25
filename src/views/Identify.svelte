@@ -44,7 +44,7 @@ function identify() {
 
 const getFeatures = (img) => {
   return fetch(process.env.API_URL + 'api/features', {
-      method: 'POST',
+     method: 'POST',
      headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'

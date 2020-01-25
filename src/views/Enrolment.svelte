@@ -1,6 +1,6 @@
 <script>
 import Webcam from 'webcamjs';
-import { onDestroy } from 'svelte';
+import { onDestroy, onMount } from 'svelte';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 
@@ -11,18 +11,18 @@ const progress = tweened(0, {
 		easing: cubicOut
 });
 
-const flash = tweened(0, {
-		duration: 300
-});
-
+const refreshResolution = 1500; // Camera image polling resolution
 
 let name = '',
     email = '',
     pictures = [],
     error = '',
-    instructions = 'Make sure the front of your face can be seen, and then press start.',
+    instructions = '',
     cameraActive = false,
-    captureInProgress = false;
+    captureInProgress = false,
+    facePolling,
+    faceDetected = false;
+
 
 $: detailsValid = () => {
   if (name === '' || email === '') {
@@ -45,50 +45,69 @@ function validateEmail(email) {
 function attachCamera() {      
   if (detailsValid()){
     Webcam.set({
-        width: 640,
-        height: 360,
-        image_format: 'jpeg',
-        jpeg_quality: 90
+       // live preview size
+			width: 320,
+			height: 240,
+			
+			// device capture size
+			dest_width: 320,
+			dest_height: 240,
+			
+			// final cropped size
+			crop_width: 240,
+			crop_height: 240,
+			
+			// format and quality
+			image_format: 'jpeg',
+			jpeg_quality: 90 
     });
     Webcam.attach('#camera');
     cameraActive = true;
+    // Start polling for images
+    facePolling = setInterval(pollFaceDetected, refreshResolution);
   }
 }
 
-function startCapture() {
-  instructions = 'Keep your face in the center of the frame...';
-  captureInProgress = true;
-  const bufferTime = 1000;
-  const numberOfImages = 15;
-  let captureInterval = setInterval(()=> {
-    flash.set(1.0);
-    Webcam.snap(data => {
-      pictures.push(data);
-      setTimeout(() => flash.set(0.0), 300); // Timeout here has to be synced with tween delay
-    });
-
-    progress.set((pictures.length / numberOfImages));
-
-    if (pictures.length >= 5) instructions = 'Turn slightly to the right...';
-    if (pictures.length >= 10) instructions = 'Turn slightly to the left...';
-
-    // Terminate 
-    if (pictures.length >= numberOfImages) {
-      clearInterval(captureInterval);
-
-      Webcam.reset();
-      instructions = 'Verifying images...';
-
-      enrolAttendee();
-    }
-
-  }, bufferTime);
+function pollFaceDetected() {
+  Webcam.snap(data => {
+    postNumberOfFaces(data)
+      .then(numberOfFaces => {
+        updateInstructions(numberOfFaces);
+        if (numberOfFaces === 1) {
+          pictures.push(data);
+          if (pictures.length < 5) instructions = 'Keep face centered';
+          else if (pictures.length < 10) instructions = 'Turn face slightly to the right';
+          else instructions = 'Turn face slightly to the left';
+          if (pictures.length >= 15) {
+            instructions = 'Done';
+            clearInterval(facePolling);
+            enrolUser();
+          }
+        }
+      });
+  });
 }
 
-function verifyImages() {
-  return Promise.all(
-    pictures.map(picture => 
-      fetch(process.env.API_URL + 'api/features', {
+function updateInstructions(numberOfFaces) {
+  progress.set(pictures.length / 15);
+  if (numberOfFaces < 1) {
+    faceDetected = false;
+    instructions = 'Move face into frame';
+  } else if (numberOfFaces > 1) {
+    faceDetected = false;
+    instructions = 'Too many faces detected';
+  } else if (numberOfFaces === 1) {
+    faceDetected = true;
+    instructions = '';
+  }
+}
+
+function enrolUser() {
+ console.info(pictures);
+}
+
+const postNumberOfFaces = (picture) => 
+  fetch(process.env.API_URL + 'api/features', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -99,76 +118,35 @@ function verifyImages() {
           image: picture
         })
       })
-    )
-  )
-  .then(responses => Promise.all(responses.map(r => r.json())))
-  .then(results => results.map(r => r.numberOfFaces))
-  .then(getPicturesToEnrol);
-}
-
-function enrolAttendee() {
-  verifyImages()
-  .then(enrolmentPictures => {
-    if (enrolmentPictures.length === 0) {
-      instructions = 'No faces detected, please try again';
-    } else {
-      instructions = 'Enroling...';
-      // TODO: Make request to enrol attendee
-      return fetch(process.env.API_URL + 'api/attendee', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          token: $token,
-          features: enrolmentPictures,
-          course: 'Information Technology',
-          year: '2012',
-          gender: 'N/A',
-          status: true,
-          email,
-          password: 'password' // TODO: Attendees need their own sign up page
-        })
-      });
-    }
-  })
-  .then(console.info)
-  .finally(() => {
-  });
-
-}
-
-function getPicturesToEnrol(results) {
-  let enrolmentPictures = [];
-  results.forEach((r, index) => {
-    if (r === 1) enrolmentPictures.push(pictures[index]);
-  });
-  return enrolmentPictures;
-}
+      .then(response => response.json())
+      .then(results => results.numberOfFaces);
 
 // Clean up on unmount
 onDestroy(() => {
  if (cameraActive) Webcam.reset();
+ clearInterval(facePolling);
 });
 
 </script>
 
 <style>
-#flash {
-  background: white;
-  pointer-events: none;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  animation: flash linear 0.3s infinite;
-}
-
 #camera {
   margin: auto;
   background: whitesmoke;
+  border-radius: 150px;
+  animation: pulse 3s infinite;
+}
+
+.error {
+ border: 2px solid red;
+}
+
+.okay {
+ border: 2px solid green;
+}
+
+.hidden {
+  visibility: hidden; 
 }
 
 input {
@@ -186,17 +164,12 @@ progress[value] {
   font-size: 30px;
 }
 </style>
-
 <div class="content">
-  <div id="flash" style="opacity: {$flash}">&nbsp;</div>
   <h2>Enrolment</h2>
-  <div id="camera"> </div>
+  <div class:hidden={!cameraActive} class:okay={faceDetected} class:error={!faceDetected} id="camera"> </div>
   {#if cameraActive}
     <p class="instructions"> {instructions} </p>
     <progress value={$progress}></progress>
-    {#if !captureInProgress} 
-      <div class="button" on:click={startCapture}> Start </div>
-    {/if }
   {:else}
     <p> To get started, enter your details </p>
     <input name="name" type="text" placeholder="Name" bind:value={name}> <br/>

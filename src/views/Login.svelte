@@ -30,16 +30,21 @@
 
 <style>
   .login-container {
-    margin: 7vh auto;
+    max-width: 100%;
+    margin: 10vh auto;
     display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
   }
 
   #login-form {
+    background: white;
     text-align: left;
-    margin: auto 30px;
-    width: 500px;
-    padding: 25px;
-    border: solid grey 1px;
+    padding: 35px;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 300px;
+    color: black;
   }
   
   .fade-in {
@@ -57,6 +62,7 @@
     border: solid grey 1px;
     padding: 5px;
     margin-bottom: 10px;
+    width: 100%;
   }
 
   #particles-js {
@@ -69,7 +75,9 @@
   }
 
   #logo {
-    height: 80vh;
+    width: 300px;
+    object-fit: contain;
+    flex: 1;
     animation: float infinite ease-in-out 5s;
   }
 </style>
