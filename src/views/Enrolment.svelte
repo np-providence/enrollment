@@ -1,25 +1,28 @@
 <script>
 import Webcam from 'webcamjs';
-import { onMount } from 'svelte';
+import { onDestroy, onMount } from 'svelte';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
+
+import { token } from '../stores';
 
 const progress = tweened(0, {
 		duration: 400,
 		easing: cubicOut
 });
 
-const flash = tweened(0, {
-		duration: 300
-});
-
+const refreshResolution = 1500; // Camera image polling resolution
 
 let name = '',
     email = '',
     pictures = [],
     error = '',
-    instructions = 'Make sure the front of your face can be seen, and then press start.',
-    cameraActive = false;
+    instructions = '',
+    cameraActive = false,
+    captureInProgress = false,
+    facePolling,
+    faceDetected = false;
+
 
 $: detailsValid = () => {
   if (name === '' || email === '') {
@@ -42,83 +45,149 @@ function validateEmail(email) {
 function attachCamera() {      
   if (detailsValid()){
     Webcam.set({
-        width: 1280,
-        height: 720,
-        image_format: 'jpeg',
-        jpeg_quality: 90
+       // live preview size
+			width: 320,
+			height: 240,
+			
+			// device capture size
+			dest_width: 320,
+			dest_height: 240,
+			
+			// final cropped size
+			crop_width: 240,
+			crop_height: 240,
+			
+			// format and quality
+			image_format: 'jpeg',
+			jpeg_quality: 90 
     });
-    Webcam.attach('#my_camera');
+    Webcam.attach('#camera');
     cameraActive = true;
+    // Start polling for images
+    facePolling = setInterval(pollFaceDetected, refreshResolution);
   }
 }
 
-function startCapture() {
-  const bufferTime = 2000;
-  const numberOfImages = 15;
-  let captureInterval = setInterval(()=> {
-    flash.set(1.0);
-    Webcam.snap(data => {
-      pictures.push(data);
-      setTimeout(() => flash.set(0.0), 300); // Timeout here has to be synced with tween delay
-    });
-    progress.set((pictures.length / numberOfImages));
-
-    if (pictures.length >= 5) instructions = 'Turn slightly to the right...';
-    if (pictures.length >= 10) instructions = 'Turn slightly to the left...';
-
-    // Terminate 
-    if (pictures.length >= numberOfImages) {
-      clearInterval(captureInterval);
-      Webcam.reset();
-      enrolAttendee();
-    }
-
-  }, bufferTime);
+function pollFaceDetected() {
+  Webcam.snap(data => {
+    postNumberOfFaces(data)
+      .then(numberOfFaces => {
+        updateInstructions(numberOfFaces);
+        if (numberOfFaces === 1) {
+          pictures.push(data);
+          if (pictures.length < 5) instructions = 'Keep face centered';
+          else if (pictures.length < 10) instructions = 'Turn face slightly to the right';
+          else instructions = 'Turn face slightly to the left';
+          if (pictures.length >= 15) {
+            instructions = 'Done';
+            clearInterval(facePolling);
+            enrolUser();
+          }
+        }
+      });
+  });
 }
 
-function enrolAttendee() {
-  // TODO: Make request to enrol attendee
+function updateInstructions(numberOfFaces) {
+  progress.set(pictures.length / 15);
+  if (numberOfFaces < 1) {
+    faceDetected = false;
+    instructions = 'Move face into frame';
+  } else if (numberOfFaces > 1) {
+    faceDetected = false;
+    instructions = 'Too many faces detected';
+  } else if (numberOfFaces === 1) {
+    faceDetected = true;
+    instructions = '';
+  }
 }
+
+function enrolUser() {
+ console.info(pictures);
+ fetch(process.env.API_URL + 'api/enrol', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: $token,
+          name: name,
+          email: email,
+          images: pictures
+        })
+      })
+      .then(response => response.json())
+}
+
+const postNumberOfFaces = (picture) => 
+  fetch(process.env.API_URL + 'api/features', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: $token,
+          image: picture
+        })
+      })
+      .then(response => response.json())
+      .then(results => results.numberOfFaces);
+
+// Clean up on unmount
+onDestroy(() => {
+ if (cameraActive) Webcam.reset();
+ clearInterval(facePolling);
+});
+
 </script>
 
 <style>
-
-#flash {
-  background: white;
-  pointer-events: none;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  animation: flash linear 0.3s infinite;
+#camera {
+  margin: auto;
+  background: whitesmoke;
+  border-radius: 150px;
+  animation: pulse 3s infinite;
 }
 
-#my_camera {
-  width: 400px;
-  margin: auto;
-  background: blue;
+.error {
+ border: 2px solid red;
+}
+
+.okay {
+ border: 2px solid green;
+}
+
+.hidden {
+  visibility: hidden; 
 }
 
 input {
-    border: solid grey 1px;
-    padding: 5px;
-    margin-bottom: 10px;
+  border: solid grey 1px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+progress[value] {
+  width: 500px;
+  height: 20px;
+}
+
+.instructions {
+  font-size: 30px;
 }
 </style>
-
 <div class="content">
-  <div id="flash" style="opacity: {$flash}">&nbsp;</div>
   <h2>Enrolment</h2>
-  <div id="my_camera"> </div>
+  <div class:hidden={!cameraActive} class:okay={faceDetected} class:error={!faceDetected} id="camera"> </div>
   {#if cameraActive}
-    <p> {instructions} </p>
+    <p class="instructions"> {instructions} </p>
     <progress value={$progress}></progress>
-    <div class="button" on:click={startCapture}> Start </div>
   {:else}
     <p> To get started, enter your details </p>
-    <input disabled="{cameraActive}" name="name" type="text" placeholder="Name" bind:value={name}> <br/>
-    <input disabled="{cameraActive}" name="email" type="text" placeholder="Email" bind:value={email}> <br/>
+    <input name="name" type="text" placeholder="Name" bind:value={name}> <br/>
+    <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
     <p style="color: red;">{error}</p>
     <div class="button" on:click={attachCamera}>Begin</div>  
   {/if}

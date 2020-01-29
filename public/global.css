@@ -236,7 +236,7 @@ fieldset {
  * 2. Correct the color inheritance from `fieldset` elements in IE.
  * 3. Remove the padding so developers are not caught out when they zero out
  *    `fieldset` elements in all browsers.
- */
+     */
 
 legend {
   box-sizing: border-box; /* 1 */
@@ -376,7 +376,7 @@ body {
 
 a {
   text-decoration: none;
-  color:white;
+  color: white;
 }
 
 .button {
@@ -414,3 +414,26 @@ a {
     opacity: 1;
   }
 }
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+

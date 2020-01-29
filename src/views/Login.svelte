@@ -1,9 +1,18 @@
 <script>
   import { token } from '../stores';
   import particlesJs from 'particles.js';
+<<<<<<< HEAD
   particlesJS.load('particles-js', '/particles.json', function() {
     console.log('callback - particles.js config loaded');
   });
+=======
+
+  particlesJS.load('particles-js', '/particles.json', function() {
+    console.log('callback - particles.js config loaded');
+  });
+
+
+>>>>>>> master
   let email = '', password = '', error = '';
   function handleForgotPassword() {
     alert('Remember by yourself, boomer.');
@@ -28,27 +37,47 @@
     margin: 7vh auto;
     display: flex;
   }
+
   #login-form {
     text-align: left;
     margin: auto 30px;
     width: 500px;
     padding: 25px;
     border: solid grey 1px;
+    max-width: 100%;
+    margin: 10vh auto;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  #login-form {
+    background: white;
+    text-align: left;
+    padding: 35px;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 300px;
+    color: black;
   }
   
   .fade-in {
     animation-name: fadeIn;
     animation-duration: 3s;
   }
+
   .fly-in {
     animation-name: flyIn;
     animation-duration: 3s;
   }
+
+
   #login-form input {
     border: solid grey 1px;
     padding: 5px;
     margin-bottom: 10px;
   }
+
   #particles-js {
     position: absolute;
     top: 0px;

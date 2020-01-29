@@ -5,9 +5,14 @@ import Navbar from '../components/Navbar';
 import EventTable from '../components/EventTable'
 import CreateEvent from './CreateEvent';
 import Dashboard from './Dashboard';
+<<<<<<< HEAD
 import Events from './MyEvents';
 import ViewAttendees from './ViewAttendees';
 import Attendees from './Attendees'
+=======
+import Attendance from './Attendance';
+import Identify from './Identify';
+>>>>>>> master
 
 let url = '/';
 
@@ -24,5 +29,8 @@ let url = '/';
     <Route path="myEvents" component="{Events}" />
     <Route path="viewAttendees" component="{ViewAttendees}" />
     <Route path="attendees" component="{Attendees}" />
+    <Route path="enrol" component="{Enrolment}" />
+    <Route path="attendance" component="{Attendance}" />
+    <Route path="identify" component="{Identify}" />
   </Router>
 </div>
