@@ -104,6 +104,20 @@ function updateInstructions(numberOfFaces) {
 
 function enrolUser() {
  console.info(pictures);
+ fetch(process.env.API_URL + 'api/enrol', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: $token,
+          name: name,
+          email: email,
+          images: pictures
+        })
+      })
+      .then(response => response.json())
 }
 
 const postNumberOfFaces = (picture) => 
