@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { Link } from 'svelte-routing';
   import { writable, get } from 'svelte/store';
-  import { newCreation } from './../stores.js';
+  import { newCreation, user } from './../stores.js';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 
 console.log(get(newCreation));
@@ -21,31 +21,40 @@ function successAlert(){
 
 <div class="content">
   <NotificationDisplay />
-  <h1>Enrolment </h1>
-  <Link to="enrol"> 
-      <div class="button">
-        Enrolment
-      </div>
-    </Link>
+
+  {#if $user.role === "admin" }
+    <h1>Enrolment </h1>
+    <Link to="enrol"> 
+        <div class="button">
+          Enrolment
+        </div>
+      </Link>
+  {/if}
+
+  {#if $user.role === "event_owner" }
   <h1>Event Management</h1>
-  <Link to="myEvents"> 
+    <Link to="myEvents"> 
+        <div class="button">
+          View My Events
+        </div>
+      </Link>
+      <Link to="createEvent"> 
+        <div class="button">
+          Create New Event
+        </div>
+      </Link>
+      <h1>Attendance Management</h1>
+    <Link to="viewAttendees"> 
       <div class="button">
-        View My Events
+        View Attendees
       </div>
     </Link>
-    <Link to="createEvent"> 
-      <div class="button">
-        Create New Event
-      </div>
-    </Link>
-    <h1>Attendance Management</h1>
-  <Link to="viewAttendees"> 
+  {/if}
+
+  {#if $user.role === "student" }
+    <h1>Profile Settings</h1>
     <div class="button">
-      View Attendees
+        Change Password
     </div>
-  </Link>
-  <h1>Profile Settings</h1>
-  <div class="button">
-      Change Password
-    </div>
+  {/if}
 </div>

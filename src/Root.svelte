@@ -6,7 +6,7 @@
   
 </script>
 
-{#if ($token && $user) }
+{#if $token && $user }
   <Router />
 {:else}
   <Login />
