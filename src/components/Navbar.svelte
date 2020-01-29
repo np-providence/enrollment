@@ -16,19 +16,21 @@
 
 <script>
 
-  import { token } from '../stores';
+  import { token, user } from '../stores';
   import { navigate,Link } from 'svelte-routing';
 
   function logOut() {
     navigate('/', { replace: true });
     token.unset();
+    user.unset();
   }
 </script>
 
 <nav>
    <Link to='/'>
-     <span id="logo"> FaceIT! Event Owner</span>
+     <span id="logo"> FaceIT!</span>
    </Link>
+   <small> Logged in as {$user.name} ({$user.role}) </small>
    <div id="controls"> 
     <Link to='/' on:click={logOut}>Log out</Link>
    </div>

@@ -1,5 +1,5 @@
 <script>
-  import { token } from '../stores';
+  import { token, user } from '../stores';
   import particlesJs from 'particles.js';
   particlesJS.load('particles-js', '/particles.json', function() {
     console.log('callback - particles.js config loaded');
@@ -19,6 +19,7 @@
       .then(r => {
         let t = r.token;
         token.set(t);
+        user.set(r.user);
       })
       .catch(err => error = "Wrong creds u loser");
   }
@@ -33,13 +34,13 @@
   #login-form {
     text-align: left;
     margin: auto 30px;
-    width: 500px;
     padding: 25px;
     border: solid grey 1px;
-    max-width: 100%;
+    max-width: 200px;
+    max-height: 350px;
     margin: 10vh auto;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
   }
 

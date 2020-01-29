@@ -20,26 +20,26 @@ function successAlert(){
 </script>
 
 <div class="content">
-<NotificationDisplay />
-<h1>Enrolment </h1>
-<Link to="enrol"> 
-    <div class="button">
-      Enrolment
-    </div>
-  </Link>
-<h1>Event Management</h1>
-<Link to="myEvents"> 
-    <div class="button">
-      View My Events
-    </div>
-  </Link>
-  <Link to="createEvent"> 
-    <div class="button">
-      Create New Event
-    </div>
-  </Link>
-  <h1>Attendance Management</h1>
-<Link to="viewAttendees"> 
+  <NotificationDisplay />
+  <h1>Enrolment </h1>
+  <Link to="enrol"> 
+      <div class="button">
+        Enrolment
+      </div>
+    </Link>
+  <h1>Event Management</h1>
+  <Link to="myEvents"> 
+      <div class="button">
+        View My Events
+      </div>
+    </Link>
+    <Link to="createEvent"> 
+      <div class="button">
+        Create New Event
+      </div>
+    </Link>
+    <h1>Attendance Management</h1>
+  <Link to="viewAttendees"> 
     <div class="button">
       View Attendees
     </div>

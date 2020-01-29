@@ -2,11 +2,11 @@
   import Login from './views/Login';
   import Router from './views/Router';
   
-  import { token } from './stores';
+  import { token, user } from './stores';
   
 </script>
 
-{#if $token}
+{#if ($token && $user) }
   <Router />
 {:else}
   <Login />
