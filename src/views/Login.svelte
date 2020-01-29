@@ -1,4 +1,5 @@
 <script>
+  import { userLogin } from '../api';
   import { token, user } from '../stores';
   import particlesJs from 'particles.js';
   particlesJS.load('particles-js', '/particles.json', function() {
@@ -11,7 +12,7 @@
   }
   function login(event) {
     event.preventDefault();
-    fetch(process.env.API_URL + `user/login?email=${email}&password=${password}`)
+    userLogin(email, password)
       .then(response => {
         if (response.ok) return response.json();
         else error = "Wrong creds u loser";

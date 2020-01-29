@@ -6,6 +6,7 @@ import { cubicOut } from 'svelte/easing';
 import { navigate } from 'svelte-routing';
 
 import { token, userMessage } from '../stores';
+import { postEnrol, postFeatures } from '../api';
 
 const progress = tweened(0, {
 		duration: 400,
@@ -104,38 +105,20 @@ function updateInstructions(numberOfFaces) {
 }
 
 function enrolUser() {
- fetch(process.env.API_URL + 'api/enrol', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          token: $token,
-          name: name,
-          email: email,
-          images: pictures
-        })
-      })
-      .then(response => response.json())
-      .finally(() => {
-        userMessage.set('Successfully enroled Student');
-        navigate('/', {replace: true});
-      });
+  postEnrol({
+      name: name,
+      email: email,
+      images: pictures
+    })
+  .then(response => response.json())
+  .finally(() => {
+    userMessage.set('Successfully enroled Student');
+    navigate('/', {replace: true});
+  });
 }
 
 const postNumberOfFaces = (picture) => 
-  fetch(process.env.API_URL + 'api/features', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          token: $token,
-          image: picture
-        })
-      })
+  postFeatures({image: picture})
       .then(response => response.json())
       .then(results => results.numberOfFaces);
 
