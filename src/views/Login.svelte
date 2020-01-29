@@ -1,18 +1,10 @@
 <script>
   import { token } from '../stores';
   import particlesJs from 'particles.js';
-<<<<<<< HEAD
-  particlesJS.load('particles-js', '/particles.json', function() {
-    console.log('callback - particles.js config loaded');
-  });
-=======
-
   particlesJS.load('particles-js', '/particles.json', function() {
     console.log('callback - particles.js config loaded');
   });
 
-
->>>>>>> master
   let email = '', password = '', error = '';
   function handleForgotPassword() {
     alert('Remember by yourself, boomer.');

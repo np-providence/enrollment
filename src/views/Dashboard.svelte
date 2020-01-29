@@ -21,6 +21,12 @@ function successAlert(){
 
 <div class="content">
 <NotificationDisplay />
+<h1>Enrolment </h1>
+<Link to="enrol"> 
+    <div class="button">
+      Enrolment
+    </div>
+  </Link>
 <h1>Event Management</h1>
 <Link to="myEvents"> 
     <div class="button">
