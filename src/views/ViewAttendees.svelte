@@ -6,16 +6,15 @@ import { selectedEvent } from './../stores.js';
 
   let events = [];
   let eventsDisplayed = [];
+  //{name: 'test', location: 'test location'}{name: 'lol', location: 'gay'}
   let id = 0;
 
   let queryTextForEvent = "",
     queryTextForLocation = "";
 
-  axios
+   axios
     .get("http://localhost:5000/api/event/all", {
-      params: {
-        name: "Programming"
-      }
+     
     })
     .then(function(response) {
       events = response["data"];
@@ -23,13 +22,14 @@ import { selectedEvent } from './../stores.js';
     })
     .catch(function(error) {
       console.log(error);
-    });
+    }); 
   
   function viewAttendees(event) {
     selectedEvent.set(event);
     navigate("attendees", { replace: true });
   } 
 
+  
   function searchEvent() {
     console.log(queryTextForEvent);
 
@@ -141,21 +141,26 @@ import { selectedEvent } from './../stores.js';
     <th>Location</th>
     <th></th>
   </tr>
-  {#each eventsDisplayed as event}
+    {#if (eventsDisplayed != [])}
+      {#each eventsDisplayed as event}
     <tr class="eventRow">
 
       <td class="tableData" />
       <td class="tableData">{event.name}</td>
-      <td class="tableData">{event.location}</td>
+      <td class="tableData">
+      {#each event.locations as locations} 
+          {locations.name + " "}
+      {/each} 
+      </td>
       <td><button on:click={() => viewAttendees(event)}>Select</button></td>
     </tr>
+    {/each}
   {:else}
     <tr>
       <td colspan="100%">
         <h5 class="text-center">There are no Events.</h5>
       </td>
     </tr>
-  {/each}
-
+  {/if}
 </table>
 </div>

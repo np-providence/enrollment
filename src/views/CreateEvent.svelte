@@ -1,28 +1,43 @@
 <script>
 import { writable,get } from 'svelte/store';
 import { onMount } from "svelte";
-import { Link, navigate  } from "svelte-routing";
 import Select from "svelte-select";
 import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 import { newCreation } from './../stores.js';
 import axios from "axios";
+import { Link, navigate  } from "svelte-routing";
 
 
 
   let eventName = "",
     numberOfSessions = 1,
     numberOfWeeks = 1,
-    location = "",
+    location = [],
     errorMsg = "",
     selectedValue = undefined,
-    n;
+    n,
+    items = []
+    ;
  
-  const items = [
-    { value: "27-01-10", label: "27-01-10" },
-    { value: "21-03-08", label: "21-03-08" }
-  ]; //test data
-
-
+ const getSelectionLabel = (option) => option.name
+onMount(async () => {
+   axios
+    .get("http://localhost:5000/api/location/all")
+    .then(function(response) {
+      location =  response["data"];
+      console.log(location)
+      location.forEach(element => {
+       console.log(element)
+       length = items.length
+       items[length] = {value: element["id"].toString(), label: element["name"] }
+        console.log(items)
+    })
+})
+    .catch(function(error) {
+      console.log(error);
+    })
+});
+  
   function validateForm() {
     if (eventName === "") {
       errorMsg = "Please enter a Event Name";
@@ -35,16 +50,20 @@ import axios from "axios";
 
   function createEvent() {
     //get location
+    let selectedLocation = []
+   
     if (numberOfSessions > 0 && numberOfWeeks > 0) {
       if (selectedValue !== undefined) {
-        location = selectedValue["value"];
+         selectedValue.forEach(element => {
+           selectedLocation.push(element["label"])
+    });
         if (validateForm() === true) {
           newCreation.update(existing => true  )
           axios.post('http://localhost:5000/api/event/new',{
               name: eventName,
-	            sessionPerWeek: numberOfSessions,
-	            numberOfWeeks: numberOfWeeks,
-              location: location,
+	            dateTimeEnd: "2020-01-20 12:18:23 UTC" ,
+              dateTimeStart: "2020-01-20 12:18:23 UTC",
+              locations: selectedLocation,
               createdBy: "saitama"
           })
           .then((response) => {
@@ -54,9 +73,6 @@ import axios from "axios";
                 console.log(error);
                 errorMsg = 'Event Name already in use.';
             });
-      
-         
-
         }
       } else {
         errorMsg = "Please select a location";
@@ -66,6 +82,7 @@ import axios from "axios";
         errorMsg = "Number of Sessions and Weeks cannot be less than 1"
     }
   }
+ 
 </script>
 
 <style>
@@ -93,9 +110,9 @@ import axios from "axios";
     }
 </style>
 
-<div class="content">
+<div class="content" >
 <NotificationDisplay bind:this={n} />
-  <div class="form">
+  <div class="form" >
     <h2>Create Event</h2>
     Event Name:
     <br />
@@ -125,7 +142,7 @@ import axios from "axios";
     Location:
     <br />
     <div class="Select">
-      <Select {items} bind:selectedValue />
+      <Select {items} isMulti={true} bind:selectedValue></Select>
     </div>
     <p style="color: red;">{errorMsg}</p>
     <br />

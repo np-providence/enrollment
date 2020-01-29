@@ -2,7 +2,7 @@
   import axios from "axios";
   import { Link, navigate } from "svelte-routing";
 
-  let events = [];
+  let events = [{name: 'lol', location: 'gay'}];
   let attendeesDisplayed = [];
   let id = 0;
 
@@ -11,9 +11,7 @@
 
   axios
     .get("http://localhost:5000/api/event/all", {
-      params: {
-        name: "Programming"
-      }
+     
     })
     .then(function(response) {
       events = response["data"];
@@ -100,19 +98,23 @@
     <th>Event Name</th>
     <th>Location</th>
   </tr>
-  {#each attendeesDisplayed as event}
+  {#if (eventsDisplayed != [])}
+  {#each eventsDisplayed as event}
     <tr class="eventRow">
 
       <td class="tableData" />
       <td class="tableData">{event.name}</td>
-      <td class="tableData">{event.location}</td>
+      <td class="tableData">{#each event.locations as locations} 
+          {locations.name + " "}
+      {/each}</td>
+      <td></td>
     </tr>
+    {/each}
   {:else}
     <tr>
       <td colspan="100%">
-        <h5 class="text-center">There are no Attendees yet.</h5>
+        <h5 class="text-center">There are no Events.</h5>
       </td>
     </tr>
-  {/each}
-
+  {/if}
 </table>

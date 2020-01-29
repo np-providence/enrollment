@@ -11,9 +11,7 @@
 
   axios
     .get("http://localhost:5000/api/event/all", {
-      params: {
-        name: "Programming"
-      }
+     
     })
     .then(function(response) {
       events = response["data"];
@@ -135,20 +133,25 @@
     <th>Location</th>
     <th></th>
   </tr>
+  {#if (eventsDisplayed != [])}
   {#each eventsDisplayed as event}
     <tr class="eventRow">
 
       <td class="tableData" />
       <td class="tableData">{event.name}</td>
-      <td class="tableData">{event.location}</td>
+      <td class="tableData">
+      {#each event.locations as locations} 
+          {locations.name + " "}
+      {/each}</td> 
       <td></td>
     </tr>
+    {/each}
   {:else}
     <tr>
       <td colspan="100%">
         <h5 class="text-center">There are no Events.</h5>
       </td>
     </tr>
-  {/each}
+  {/if}
 
 </table>
