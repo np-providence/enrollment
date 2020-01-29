@@ -3,8 +3,9 @@ import Webcam from 'webcamjs';
 import { onDestroy, onMount } from 'svelte';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
+import { navigate } from 'svelte-routing';
 
-import { token } from '../stores';
+import { token, userMessage } from '../stores';
 
 const progress = tweened(0, {
 		duration: 400,
@@ -103,7 +104,6 @@ function updateInstructions(numberOfFaces) {
 }
 
 function enrolUser() {
- console.info(pictures);
  fetch(process.env.API_URL + 'api/enrol', {
         method: 'POST',
         headers: {
@@ -118,6 +118,10 @@ function enrolUser() {
         })
       })
       .then(response => response.json())
+      .finally(() => {
+        userMessage.set('Successfully enroled Student');
+        navigate('/', {replace: true});
+      });
 }
 
 const postNumberOfFaces = (picture) => 
@@ -179,13 +183,12 @@ progress[value] {
 }
 </style>
 <div class="content">
-  <h2>Enrolment</h2>
   <div class:hidden={!cameraActive} class:okay={faceDetected} class:error={!faceDetected} id="camera"> </div>
   {#if cameraActive}
     <p class="instructions"> {instructions} </p>
     <progress value={$progress}></progress>
   {:else}
-    <p> To get started, enter your details </p>
+    <h3> To get started, enter your details </h3>
     <input name="name" type="text" placeholder="Name" bind:value={name}> <br/>
     <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
     <p style="color: red;">{error}</p>

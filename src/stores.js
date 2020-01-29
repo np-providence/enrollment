@@ -47,5 +47,5 @@ const createUserStore = () => {
 
 export const token = createTokenStore();
 export const user = createUserStore();
-export const newCreation = writable(false);
+export const userMessage = writable('');
 export const selectedEvent = writable('');

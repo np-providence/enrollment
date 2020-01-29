@@ -3,7 +3,7 @@ import { writable,get } from 'svelte/store';
 import { onMount } from "svelte";
 import Select from "svelte-select";
 import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
-import { newCreation } from './../stores.js';
+import { userMessage } from './../stores.js';
 import axios from "axios";
 import { Link, navigate  } from "svelte-routing";
 
@@ -58,7 +58,7 @@ onMount(async () => {
            selectedLocation.push(element["label"])
     });
         if (validateForm() === true) {
-          newCreation.update(existing => true  )
+          userMessage.update(_ => 'Created new event')
           axios.post('http://localhost:5000/api/event/new',{
               name: eventName,
 	            dateTimeEnd: "2020-01-20 12:18:23 UTC" ,

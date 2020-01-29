@@ -2,31 +2,25 @@
   import { onMount } from 'svelte';
   import { Link } from 'svelte-routing';
   import { writable, get } from 'svelte/store';
-  import { newCreation, user } from './../stores.js';
+  import { userMessage, user } from './../stores.js';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 
-console.log(get(newCreation));
-
 onMount(() => {
-  if (get(newCreation)) { 
-    successAlert();
-    newCreation.update(existing => false)
+  if ($userMessage) { 
+    notifier.success($userMessage);
+    userMessage.update( _ => null)
     }
 });
-
-function successAlert(){
-  notifier.success('Event has been created!', 2000);
-}
 </script>
 
 <div class="content">
   <NotificationDisplay />
 
   {#if $user.role === "admin" }
-    <h1>Enrolment </h1>
-    <Link to="enrol"> 
+    <h1>Admin Panel</h1>
+      <Link to="enrol"> 
         <div class="button">
-          Enrolment
+         Enrol Student 
         </div>
       </Link>
   {/if}
