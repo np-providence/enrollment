@@ -1,18 +1,14 @@
 <script>
   import { token } from '../stores';
   import particlesJs from 'particles.js';
-
   particlesJS.load('particles-js', '/particles.json', function() {
     console.log('callback - particles.js config loaded');
   });
 
-
   let email = '', password = '', error = '';
-
   function handleForgotPassword() {
     alert('Remember by yourself, boomer.');
   }
-
   function login(event) {
     event.preventDefault();
     fetch(process.env.API_URL + `user/login?email=${email}&password=${password}`)
@@ -30,6 +26,16 @@
 
 <style>
   .login-container {
+    margin: 7vh auto;
+    display: flex;
+  }
+
+  #login-form {
+    text-align: left;
+    margin: auto 30px;
+    width: 500px;
+    padding: 25px;
+    border: solid grey 1px;
     max-width: 100%;
     margin: 10vh auto;
     display: flex;
@@ -62,7 +68,6 @@
     border: solid grey 1px;
     padding: 5px;
     margin-bottom: 10px;
-    width: 100%;
   }
 
   #particles-js {
@@ -73,11 +78,8 @@
     left: 0px;
     z-index: -99;
   }
-
   #logo {
-    width: 300px;
-    object-fit: contain;
-    flex: 1;
+    height: 80vh;
     animation: float infinite ease-in-out 5s;
   }
 </style>
@@ -86,7 +88,7 @@
    <div id="particles-js" class="fade-in" />
    <div class="login-container">
      <form id="login-form" class="fade-in" on:submit={login}>
-      <h2> FaceIT! Web </h2>
+      <h2> FaceIT! Event Owner </h2>
       <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
       <input name="password" type="password" placeholder="Password" bind:value={password}> <br/>
       <input type="submit" value="Login">
@@ -96,5 +98,3 @@
     <img id="logo" src="/img/logo.png" />
     </div>
 </div>
-
-

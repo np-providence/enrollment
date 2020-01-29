@@ -24,4 +24,5 @@ export const createTokenStore = ()  => {
 };
 
 export const token = createTokenStore();
-
+export const newCreation = writable(false);
+export const selectedEvent = writable('');

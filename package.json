@@ -2,6 +2,7 @@
   "name": "svelte-app",
   "version": "1.0.0",
   "devDependencies": {
+    "@beyonk/svelte-notifications": "^2.0.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "mini-css-extract-plugin": "^0.6.0",
@@ -18,9 +19,12 @@
     "dev": "webpack-dev-server --content-base public"
   },
   "dependencies": {
+    "axios": "^0.19.1",
     "dotenv": "^8.2.0",
+    "jquery": "^3.4.1",
     "particles.js": "^2.0.0",
     "svelte-routing": "^1.4.0",
+    "svelte-select": "^3.3.5",
     "webcamjs": "^1.0.26"
   }
 }

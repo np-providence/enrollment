@@ -15,8 +15,9 @@
 </style>
 
 <script>
+
   import { token } from '../stores';
-  import { navigate } from 'svelte-routing';
+  import { navigate,Link } from 'svelte-routing';
 
   function logOut() {
     navigate('/', { replace: true });
@@ -25,10 +26,10 @@
 </script>
 
 <nav>
-   <a href="/">
-     <span id="logo"> FaceIT!</span>
-   </a>
+   <Link to='/'>
+     <span id="logo"> FaceIT! Event Owner</span>
+   </Link>
    <div id="controls"> 
-    <a href="" on:click={logOut}>Log out</a>
+    <Link to='/' on:click={logOut}>Log out</Link>
    </div>
 </nav>

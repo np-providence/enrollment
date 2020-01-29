@@ -3,6 +3,7 @@
   import Router from './views/Router';
   
   import { token } from './stores';
+  
 </script>
 
 {#if $token}
