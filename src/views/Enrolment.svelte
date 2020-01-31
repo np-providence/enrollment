@@ -141,7 +141,8 @@ onMount(() => {
     console.info(r)
     years = r[0].years;
     courses = r[1].courses;
-    console.log(years, courses);
+    yearID = years[0].id;
+    courseID = courses[0].id;
   }).catch(console.error);
 });
 
