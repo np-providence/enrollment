@@ -23,6 +23,11 @@ onMount(() => {
          Enrol Student 
         </div>
       </Link>
+      <Link to="listStudents"> 
+        <div class="button">
+        Students
+        </div>
+      </Link>
   {/if}
 
   {#if $user.role === "event_owner" }

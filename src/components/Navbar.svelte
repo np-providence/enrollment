@@ -20,9 +20,9 @@
   import { navigate,Link } from 'svelte-routing';
 
   function logOut() {
-    navigate('/', { replace: true });
     token.unset();
     user.unset();
+    navigate('/', { replace: true });
   }
 </script>
 

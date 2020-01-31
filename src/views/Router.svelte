@@ -9,6 +9,7 @@ import Events from './MyEvents';
 import ViewAttendees from './ViewAttendees';
 import Attendees from './Attendees';
 import Enrolment from'./Enrolment';
+import ListStudents from './ListStudents';
 
 let url = '/';
 
@@ -24,6 +25,7 @@ let url = '/';
     <Route path="createEvent" component="{CreateEvent}" />
     <Route path="myEvents" component="{Events}" />
     <Route path="viewAttendees" component="{ViewAttendees}" />
+    <Route path="listStudents" component="{ListStudents}" />
     <Route path="attendees" component="{Attendees}" />
     <Route path="enrol" component="{Enrolment}" />
   </Router>

@@ -6,7 +6,7 @@ import { cubicOut } from 'svelte/easing';
 import { navigate } from 'svelte-routing';
 
 import { token, userMessage } from '../stores';
-import { postEnrol, postFeatures } from '../api';
+import { postEnrol, postFeatures, getCourses, getYears } from '../api';
 
 const progress = tweened(0, {
 		duration: 400,
@@ -17,6 +17,8 @@ const refreshResolution = 1500; // Camera image polling resolution
 
 let name = '',
     email = '',
+    courseID = '',
+    yearID = '',
     pictures = [],
     error = '',
     instructions = '',
@@ -25,6 +27,8 @@ let name = '',
     facePolling,
     faceDetected = false;
 
+
+let courses = [], years = [];
 
 $: detailsValid = () => {
   if (name === '' || email === '') {
@@ -108,6 +112,8 @@ function enrolUser() {
   postEnrol({
       name: name,
       email: email,
+      courseID: courseID,
+      yearID: yearID,
       images: pictures
     })
   .then(response => response.json())
@@ -126,6 +132,17 @@ const postNumberOfFaces = (picture) =>
 onDestroy(() => {
  if (cameraActive) Webcam.reset();
  clearInterval(facePolling);
+});
+
+onMount(() => {
+  Promise.all([getYears(), getCourses()])
+  .then(async (r) => Promise.all(r.map(x => x.json())))
+  .then(async (r) => {
+    console.info(r)
+    years = r[0].years;
+    courses = r[1].courses;
+    console.log(years, courses);
+  }).catch(console.error);
 });
 
 </script>
@@ -174,6 +191,20 @@ progress[value] {
     <h3> To get started, enter your details </h3>
     <input name="name" type="text" placeholder="Name" bind:value={name}> <br/>
     <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
+    <select bind:value={yearID}>
+      {#each years as year}
+        <option value={year.id}>
+          { year.name }
+        </option>
+      {/each}
+    </select><br/>
+    <select bind:value={courseID}>
+      {#each courses as course}
+        <option value={course.id}>
+          { course.name }
+        </option>
+      {/each}
+    </select>
     <p style="color: red;">{error}</p>
     <div class="button" on:click={attachCamera}>Begin</div>  
   {/if}

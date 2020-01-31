@@ -2,9 +2,7 @@
   import { userLogin } from '../api';
   import { token, user } from '../stores';
   import particlesJs from 'particles.js';
-  particlesJS.load('particles-js', '/particles.json', function() {
-    console.log('callback - particles.js config loaded');
-  });
+  particlesJS.load('particles-js', '/particles.json');
 
   let email = '', password = '', error = '';
   function handleForgotPassword() {
@@ -90,7 +88,7 @@
    <div id="particles-js" class="fade-in" />
    <div class="login-container">
      <form id="login-form" class="fade-in" on:submit={login}>
-      <h2> FaceIT! Event Owner </h2>
+      <h2> FaceIT! </h2>
       <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
       <input name="password" type="password" placeholder="Password" bind:value={password}> <br/>
       <input type="submit" value="Login">
