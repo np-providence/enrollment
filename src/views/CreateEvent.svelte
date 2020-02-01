@@ -3,7 +3,7 @@ import { writable,get } from 'svelte/store';
 import { onMount } from "svelte";
 import Select from "svelte-select";
 import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
-import { userMessage } from './../stores.js';
+import { userMessage, user } from './../stores.js';
 import axios from "axios";
 import { Link, navigate  } from "svelte-routing";
 
@@ -55,7 +55,7 @@ onMount(async () => {
     if (numberOfSessions > 0 && numberOfWeeks > 0) {
       if (selectedValue !== undefined) {
          selectedValue.forEach(element => {
-           selectedLocation.push(element["label"])
+           selectedLocation.push(element["value"])
     });
         if (validateForm() === true) {
           userMessage.update(_ => 'Created new event')
@@ -64,7 +64,7 @@ onMount(async () => {
 	            dateTimeEnd: "2020-01-20 12:18:23 UTC" ,
               dateTimeStart: "2020-01-20 12:18:23 UTC",
               locations: selectedLocation,
-              createdBy: "saitama"
+              createdBy: $user.id
           })
           .then((response) => {
                console.log(response);

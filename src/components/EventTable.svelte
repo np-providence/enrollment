@@ -1,5 +1,5 @@
 <script>
-  import axios from "axios";
+  import{ getAllEvents } from '../api';
   import { Link, navigate } from "svelte-routing";
 
   let events = [];
@@ -9,13 +9,11 @@
   let queryTextForEvent = "",
     queryTextForLocation = "";
 
-  axios
-    .get("http://localhost:5000/api/event/all", {
-     
-    })
-    .then(function(response) {
-      events = response["data"];
-      eventsDisplayed = events;
+ getAllEvents() 
+   .then(r => r.json())
+   .then(function(r) {
+      events = r;
+      eventsDisplayed = r;
     })
     .catch(function(error) {
       console.log(error);
@@ -79,11 +77,6 @@
   tr {
     height: 8vh;
     border: 1px black solid;
-    background-color: #0a5878;
-  }
-
-  tr:nth-child(even) {
-    background-color: #0e7ba7;
   }
 
   .filter {
