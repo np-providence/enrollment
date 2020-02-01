@@ -364,8 +364,6 @@ body {
   font-size: 18px;
   display: grid;
   grid-template-columns: 10vw [content-start] auto [content-end] 10vw;
-  background: #042431;
-  color: white;
 }
 
 .content {
@@ -376,12 +374,10 @@ body {
 
 a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 .button {
-  color: white;
-  background: #07566B;
   max-width: 300px;
   margin: 20px auto;
   padding: 15px;

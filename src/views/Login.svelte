@@ -1,8 +1,6 @@
 <script>
   import { userLogin } from '../api';
   import { token, user } from '../stores';
-  import particlesJs from 'particles.js';
-  particlesJS.load('particles-js', '/particles.json');
 
   let email = '', password = '', error = '';
   function handleForgotPassword() {
@@ -63,29 +61,15 @@
     animation-duration: 3s;
   }
 
-
   #login-form input {
     border: solid grey 1px;
     padding: 5px;
     margin-bottom: 10px;
   }
 
-  #particles-js {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    z-index: -99;
-  }
-  #logo {
-    height: 80vh;
-    animation: float infinite ease-in-out 5s;
-  }
 </style>
 
 <div class="content">
-   <div id="particles-js" class="fade-in" />
    <div class="login-container">
      <form id="login-form" class="fade-in" on:submit={login}>
       <h2> FaceIT! </h2>
@@ -95,6 +79,5 @@
       <a href="#" on:click={handleForgotPassword}> Forgot Password? </a>
       <p style="color: red;">{error}</p>
      </form>
-    <img id="logo" src="/img/logo.png" />
     </div>
 </div>
