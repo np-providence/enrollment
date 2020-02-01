@@ -139,8 +139,8 @@ onMount(() => {
   .then(async (r) => Promise.all(r.map(x => x.json())))
   .then(async (r) => {
     console.info(r)
-    years = r[0].years;
-    courses = r[1].courses;
+    years = r[0].data;
+    courses = r[1].data;
     yearID = years[0].id;
     courseID = courses[0].id;
   }).catch(console.error);

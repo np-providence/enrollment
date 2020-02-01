@@ -20,9 +20,9 @@
     Promise.all([getStudents(), getYears(), getCourses()])
     .then(async (r) => Promise.all(r.map(x => x.json())))
     .then(results => {
-      students = results[0].students;
-      years = results[1].years;
-      courses = results[2].courses;
+      students = results[0].data;
+      years = results[1].data;
+      courses = results[2].data;
     });
   });
 </script>
