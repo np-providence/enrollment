@@ -384,6 +384,7 @@ a {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+  background: whitesmoke;
 }
 
 .button:active {

@@ -29,26 +29,18 @@
   }
 
   #login-form {
-    text-align: left;
-    margin: auto 30px;
-    padding: 25px;
-    border: solid grey 1px;
-    max-width: 200px;
-    max-height: 350px;
+    margin: auto;
+    padding: 35px;
+    min-height: 550px;
     margin: 10vh auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  #login-form {
-    background: white;
+    background: whitesmoke;
     text-align: left;
-    padding: 35px;
     border-radius: 5px;
     flex: 1;
     min-width: 300px;
-    color: black;
   }
   
   .fade-in {
@@ -72,7 +64,7 @@
 <div class="content">
    <div class="login-container">
      <form id="login-form" class="fade-in" on:submit={login}>
-      <h2> FaceIT! </h2>
+      <h1> FaceIT! </h1>
       <input name="email" type="text" placeholder="Email" bind:value={email}> <br/>
       <input name="password" type="password" placeholder="Password" bind:value={password}> <br/>
       <input type="submit" value="Login">
