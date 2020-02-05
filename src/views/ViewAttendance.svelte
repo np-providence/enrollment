@@ -3,8 +3,8 @@
   import { getAllEvents } from '../api';
   import { onMount } from 'svelte';
 
-  let events = null;
-  let eventID = '';
+  let events = null, selectedEventID = null;
+  let fetchAttendance;
 
   onMount(() => {
     getAllEvents().then(r => r.json())
@@ -13,9 +13,14 @@
       });
   });
 
-  function setEventID(id) {
-    eventID = id;
-    console.info(id);
+  function eventClicked(id) {
+    fetchAttendance(id);
+    selectedEventID = id;
+  }
+
+  function reloadAttendance() {
+    if (selectedEventID !== null)
+      fetchAttendance(selectedEventID);
   }
 </script>
 
@@ -25,6 +30,10 @@ table {
 }
 
 tr:hover {
+  background: whitesmoke;
+}
+
+.selected {
   background: whitesmoke;
 }
 
@@ -44,7 +53,7 @@ td, th {
         <th>Status</th>
       </thead>
       {#each events as event}
-        <tr on:click={() => setEventID(event.id)}>
+        <tr on:click={() => eventClicked(event.id)} class:selected={event.id === selectedEventID}>
           <td>{event.name}</td>
           <td>What</td>
         </tr>
@@ -52,5 +61,6 @@ td, th {
     </table>
   {/if}
   <h1>Attendance Records</h1>
-  <AttendanceTable bind:eventID={eventID} />
+  <button on:click={reloadAttendance}>Refresh</button>
+  <AttendanceTable bind:fetchAttendance={fetchAttendance} />
 </div>

@@ -2,22 +2,17 @@
   import { getAttendance, getStudents, getAllEvents } from '../api';
   import { onMount } from 'svelte';
 
-  export let eventID;
   let attendanceRecords = null;
   let students, events;
 
-  $: {
-    if (eventID !== undefined && eventID !== '') {
-      getAttendance(eventID).then(r => r.json())
+  export const fetchAttendance = (eventID) => getAttendance(eventID).then(r => r.json())
       .then(response => {
         attendanceRecords = response.data;
       })
-      .catch(console.error);
-    }
-  }
+      .catch(console.error);  
 
   onMount(() => {
-    Promise.all([getStudents(), getAllEvents()])
+      Promise.all([getStudents(), getAllEvents()])
       .then(async (results) => Promise.all(results.map(r => r.json())))
       .then(([s, e]) => {
         students = s.data;
