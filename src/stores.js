@@ -31,6 +31,7 @@ const createUserStore = () => {
   return {
     subscribe,
     set: user => {
+      console.info(user);
       storage.setItem('user', JSON.stringify(user));
       set(user);
     },

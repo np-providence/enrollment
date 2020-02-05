@@ -43,7 +43,7 @@ onMount(() => {
         </div>
       </Link>
       <h1>Attendance Management</h1>
-    <Link to="viewAttendees"> 
+    <Link to="viewAttendance"> 
       <div class="button">
         View Attendees
       </div>

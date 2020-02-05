@@ -16,6 +16,7 @@
       .then(r => {
         let t = r.token;
         token.set(t);
+        console.info(r);
         user.set(r.user);
       })
       .catch(err => error = "Wrong creds u loser");

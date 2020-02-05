@@ -6,8 +6,7 @@ import EventTable from '../components/EventTable'
 import CreateEvent from './CreateEvent';
 import Dashboard from './Dashboard';
 import Events from './MyEvents';
-import ViewAttendees from './ViewAttendees';
-import Attendees from './Attendees';
+import ViewAttendance from './ViewAttendance.svelte';
 import Enrolment from'./Enrolment';
 import ListStudents from './ListStudents';
 
@@ -24,9 +23,8 @@ let url = '/';
     <Route path="/" component="{Dashboard}" />
     <Route path="createEvent" component="{CreateEvent}" />
     <Route path="myEvents" component="{Events}" />
-    <Route path="viewAttendees" component="{ViewAttendees}" />
     <Route path="listStudents" component="{ListStudents}" />
-    <Route path="attendees" component="{Attendees}" />
+    <Route path="viewAttendance" component={ViewAttendance} />
     <Route path="enrol" component="{Enrolment}" />
   </Router>
 </div>

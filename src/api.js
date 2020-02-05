@@ -13,7 +13,7 @@ const paths = {
   students: 'api/student',
   courses: 'api/course',
   years: 'api/year',
-  allEvents: 'api/event/all',
+  allEvents: 'api/event/all'
 };
 
 const postRequest = (path, payload) => fetch(process.env.API_URL + path, {
@@ -33,6 +33,8 @@ export const getStudents = () => getRequest(paths.students);
 export const getYears = () => getRequest(paths.years);
 export const getCourses = () => getRequest(paths.courses);
 export const getAllEvents = () => getRequest(paths.allEvents);
+export const getAttendance = (eventID) => getRequest(`api/attendance?event=${eventID}`);
 
+// Public routes
 export const userLogin = (email, password) => fetch(process.env.API_URL + `user/login?email=${email}&password=${password}`);
 
