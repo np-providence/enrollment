@@ -40,6 +40,7 @@ tr:hover {
 td, th {
   text-align: left;
 }
+
 </style>
 
 <div class="content">

@@ -6,12 +6,14 @@ import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications';
 import { userMessage, user } from './../stores.js';
 import axios from "axios";
 import { Link, navigate  } from "svelte-routing";
-
+import DatePicker from 'svelte-calendar';
 
 
   let eventName = "",
     numberOfSessions = 1,
     numberOfWeeks = 1,
+    startDate,
+    endDate,
     location = [],
     errorMsg = "",
     selectedValue = undefined,
@@ -61,8 +63,8 @@ onMount(async () => {
           userMessage.update(_ => 'Created new event')
           axios.post('http://localhost:5000/api/event/new',{
               name: eventName,
-	            dateTimeEnd: "2020-01-20 12:18:23 UTC" ,
-              dateTimeStart: "2020-01-20 12:18:23 UTC",
+	            dateTimeEnd: endDate.toUTCString(),
+              dateTimeStart: startDate.toUTCString(),
               locations: selectedLocation,
               createdBy: $user.id
           })
@@ -122,23 +124,14 @@ onMount(async () => {
       placeholder="Event Name"
       bind:value={eventName} />
     <br />
-    Number of Sessions per Week:
-    <br />
-    <input
-      title="Number of Sessions Per Week"
-      name="number of sessions per week"
-      type="number"
-      min="1"
-      bind:value={numberOfSessions} />
-    <br />
-    Number of Weeks:
-    <br />
-    <input
-      name="number of weeks"
-      type="number"
-      min="1"
-      bind:value={numberOfWeeks} />
-    <br />
+    Start Date:
+    <br/>
+    <DatePicker bind:selected={startDate}/>
+    <br/>
+    End Date:
+    <br/>
+    <DatePicker bind:selected={endDate}/>
+    <br/>
     Location:
     <br />
     <div class="Select">
