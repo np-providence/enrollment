@@ -24,7 +24,7 @@ import DatePicker from 'svelte-calendar';
  const getSelectionLabel = (option) => option.name
 onMount(async () => {
    axios
-    .get(`${process.env.API_URL}api/location/all`)
+    .get("http://localhost:5000/api/location/all")
     .then(function(response) {
       location =  response["data"];
       console.log(location)
@@ -61,7 +61,7 @@ onMount(async () => {
     });
         if (validateForm() === true) {
           userMessage.update(_ => 'Created new event')
-          axios.post(`${process.env.API_URL}api/event/new`,{
+          axios.post('http://localhost:5000/api/event/new',{
               name: eventName,
 	            dateTimeEnd: endDate.toUTCString(),
               dateTimeStart: startDate.toUTCString(),
