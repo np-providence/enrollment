@@ -382,9 +382,8 @@ a {
   margin: 20px auto;
   padding: 15px;
   font-weight: bold;
-  border-radius: 5px;
   cursor: pointer;
-  background: whitesmoke;
+  border: solid 1px black;
 }
 
 .button:active {

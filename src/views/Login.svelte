@@ -32,16 +32,13 @@
   #login-form {
     margin: auto;
     padding: 35px;
-    min-height: 550px;
     margin: 10vh auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: whitesmoke;
-    text-align: left;
-    border-radius: 5px;
     flex: 1;
-    min-width: 300px;
+    max-width: 300px;
+    border: solid 1px black;
   }
   
   .fade-in {

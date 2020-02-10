@@ -41,27 +41,39 @@ td, th {
   text-align: left;
 }
 
+.content {
+  display: flex;
+  flex-direction: row;
+}
+.row {
+  flex: 1;
+}
+
 </style>
 
 <div class="content">
-  <h1>Select Event</h1>
-  {#if events === null}
-    <p>Loading...</p>
-  {:else}
-    <table>
-      <thead>
-        <th>Event Name</th>
-        <th>Status</th>
-      </thead>
-      {#each events as event}
-        <tr on:click={() => eventClicked(event.id)} class:selected={event.id === selectedEventID}>
-          <td>{event.name}</td>
-          <td>What</td>
-        </tr>
-      {/each}
-    </table>
-  {/if}
-  <h1>Attendance Records</h1>
-  <button on:click={reloadAttendance}>Refresh</button>
-  <AttendanceTable bind:fetchAttendance={fetchAttendance} />
+  <div class="row">
+    <h1>Select Event</h1>
+    {#if events === null}
+      <p>Loading...</p>
+    {:else}
+      <table>
+        <thead>
+          <th>Event Name</th>
+          <th>Status</th>
+        </thead>
+        {#each events as event}
+          <tr on:click={() => eventClicked(event.id)} class:selected={event.id === selectedEventID}>
+            <td>{event.name}</td>
+            <td>What</td>
+          </tr>
+        {/each}
+      </table>
+    {/if}
+  </div>
+  <div class="row">
+    <h1>Attendance Records</h1>
+    <button on:click={reloadAttendance}>Refresh</button>
+    <AttendanceTable bind:fetchAttendance={fetchAttendance} />
+  </div>
 </div>
