@@ -32,16 +32,14 @@
   #login-form {
     margin: auto;
     padding: 35px;
-    min-height: 550px;
     margin: 10vh auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: whitesmoke;
+    border: solid 1px black;
     text-align: left;
-    border-radius: 5px;
     flex: 1;
-    min-width: 300px;
+    max-width: 400px;
   }
   
   .fade-in {
@@ -72,5 +70,9 @@
       <a href="#" on:click={handleForgotPassword}> Forgot Password? </a>
       <p style="color: red;">{error}</p>
      </form>
+<img src="
+https://storage.googleapis.com/afs-prod/media/5bc1eb74906b4eeb8afb00a416595fad/800.jpeg
+    "/>
     </div>
+    
 </div>

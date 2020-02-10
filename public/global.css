@@ -361,9 +361,11 @@ body {
   word-break: break-word;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
-  font-size: 18px;
+  font-size: 18px;;
   display: grid;
   grid-template-columns: 10vw [content-start] auto [content-end] 10vw;
+  background: #F7B527;
+  color: #522380;
 }
 
 .content {
@@ -384,7 +386,8 @@ a {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
-  background: whitesmoke;
+  background: #522380;
+  color: white;
 }
 
 .button:active {
