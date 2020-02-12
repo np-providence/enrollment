@@ -65,7 +65,7 @@ td, th {
         {#each events as event}
           <tr on:click={() => eventClicked(event.id)} class:selected={event.id === selectedEventID}>
             <td>{event.name}</td>
-            <td>What</td>
+            <td>{(event.date_time_start < Date() && event.date_time_end > Date()) ? 'Active': 'Inactive'}</td>
           </tr>
         {/each}
       </table>
